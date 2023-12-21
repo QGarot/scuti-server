@@ -1,4 +1,4 @@
-package com.scuti.encoding;
+package com.scuti.server.encoding;
 
 public class Base64Encoding {
     public static byte[] encodeInt32(int i, int numBytes) throws Exception {

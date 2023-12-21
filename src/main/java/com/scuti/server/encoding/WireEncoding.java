@@ -1,4 +1,4 @@
-package com.scuti.encoding;
+package com.scuti.server.encoding;
 
 public class WireEncoding {
     public static byte NEGATIVE = 72;

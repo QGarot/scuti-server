@@ -1,6 +1,6 @@
 package com.scuti.server.netty.streams;
 
-import com.scuti.encoding.WireEncoding;
+import com.scuti.server.encoding.WireEncoding;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;

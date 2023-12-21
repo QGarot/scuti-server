@@ -1,13 +1,9 @@
 package com.scuti.server.netty.streams;
 
-import com.scuti.api.netty.messages.ClientMessage;
-import com.scuti.encoding.Base64Encoding;
-import com.scuti.encoding.WireEncoding;
-import io.netty.buffer.ByteBuf;
+import com.scuti.server.encoding.Base64Encoding;
+import com.scuti.server.encoding.WireEncoding;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class NettyRequest {
 

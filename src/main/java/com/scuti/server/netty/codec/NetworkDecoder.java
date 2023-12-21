@@ -1,6 +1,6 @@
 package com.scuti.server.netty.codec;
 
-import com.scuti.encoding.Base64Encoding;
+import com.scuti.server.encoding.Base64Encoding;
 import com.scuti.server.netty.streams.NettyRequest;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
