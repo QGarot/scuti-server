@@ -1,62 +1,50 @@
 package com.scuti.server.netty.streams;
 
-import com.scuti.api.netty.messages.ServerMessage;
-import io.netty.buffer.ByteBuf;
+import com.scuti.encoding.WireEncoding;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
-public class NettyResponse implements ServerMessage {
+public class NettyResponse {
 
-    private short id;
-    private ByteBuf buffer;
+    private int id;
+    private final ArrayList<Byte> body = new ArrayList<Byte>();
 
-    public NettyResponse(short header, ByteBuf buffer) {
-        this.id = header;
-        this.buffer = buffer;
-        this.buffer.writeInt(-1);
-        this.buffer.writeShort(id);
+    public NettyResponse(int message_id) {
+        this.id = message_id;
     }
 
-    @Override
-    public void writeString(String s) {
-        buffer.writeShort(s.length());
-        buffer.writeBytes(s.getBytes());
+    public void clear() {
+        this.body.clear();
     }
 
-    @Override
-    public void writeInt(int x) {
-        buffer.writeInt(x);
+    public void appendByte(byte b) {
+        this.body.add(b);
     }
 
-    @Override
-    public void writeShort(int x) {
-        buffer.writeShort((short)x);
-    }
-
-    @Override
-    public void writeBool(boolean bool) {
-        buffer.writeBoolean(bool);
-    }
-
-    @Override
-    public String getBodyString() {
-
-        String str = this.buffer.toString(Charset.defaultCharset());
-
-        for (int i = 0; i < 14; i++) {
-            str = str.replace(Character.toString((char)i), "[" + i + "]");
+    public void appendBytes(byte[] data) {
+        if (data != null) {
+            for (byte datum : data) {
+                this.appendByte(datum);
+            }
         }
-
-        return str;
     }
 
-    @Override
-    public int getHeader() {
-        return this.id;
+    public void appendBoolean(boolean bool) {
+        if (bool) {
+            this.appendInt32(WireEncoding.POSITIVE);
+        } else {
+            this.appendInt32(WireEncoding.NEGATIVE);
+        }
     }
 
-    public boolean hasLength() {
-        return (this.buffer.getInt(0) > -1);
+    public void appendInt32(int i) {
+        this.appendBytes(WireEncoding.encodeInt32(i));
+    }
 
+    public void appendString(String s) {
+        if (s.length() > 0) {
+            this.appendBytes(s.getBytes(StandardCharsets.UTF_8));
+        }
     }
 }

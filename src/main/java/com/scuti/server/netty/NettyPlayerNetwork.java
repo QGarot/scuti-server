@@ -1,9 +1,7 @@
 package com.scuti.server.netty;
 
 import com.scuti.api.netty.PlayerNetwork;
-import com.scuti.server.encryption.RC4;
 import com.scuti.api.messages.MessageComposer;
-import com.scuti.server.netty.codec.EncryptionDecoder;
 import io.netty.channel.Channel;
 
 public class NettyPlayerNetwork implements PlayerNetwork {
@@ -18,9 +16,6 @@ public class NettyPlayerNetwork implements PlayerNetwork {
     @Override
     public void addPipelineStage(Object object) {
 
-        if (object instanceof RC4) {
-            this.channel.pipeline().addBefore("gameDecoder", "gameCrypto", new EncryptionDecoder((RC4)object));
-        }
     }
 
     @Override

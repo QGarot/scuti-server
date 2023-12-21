@@ -1,96 +1,106 @@
 package com.scuti.server.netty.streams;
 
 import com.scuti.api.netty.messages.ClientMessage;
+import com.scuti.encoding.Base64Encoding;
+import com.scuti.encoding.WireEncoding;
 import io.netty.buffer.ByteBuf;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
-public class NettyRequest implements ClientMessage {
+public class NettyRequest {
 
-    final private short header;
-    final private int length;
+    private byte[] body;
+    private int messageId;
+    private int pointer;
+    private int remainingContent;
 
-    final public ByteBuf buffer;
-
-    public NettyRequest(int length, ByteBuf buffer) {
-        this.buffer = buffer;
-        this.header = buffer.readShort();
-        this.length = length;
+    public NettyRequest(int messageId, byte[] body) {
+        if (body == null) {
+            body = new byte[0];
+            this.messageId = messageId;
+            this.body = body;
+            this.pointer = 0;
+            this.remainingContent = this.body.length - this.pointer;
+        }
     }
 
-    @Override
-    public int readInt() {
-        try {
-            return this.buffer.readInt();
-        } catch (Exception e) {
+    public void reset() {
+        this.pointer = 0;
+    }
+
+    public void advancePointer(int i) {
+        this.pointer = this.pointer + i;
+    }
+
+    public String getContentString() {
+        return new String(this.body, StandardCharsets.UTF_8);
+    }
+
+    public byte[] readBytes(int numBytes) {
+        if (numBytes > this.remainingContent) {
+            numBytes = this.remainingContent;
+        }
+        byte[] bzData = new byte[numBytes];
+        for (int i = 0 ; i < numBytes ; i++) {
+            bzData[i] = this.body[this.pointer++];
+        }
+        return bzData;
+    }
+
+    public byte[] readBytesFreezeCursor(int numBytes) {
+        if (numBytes > this.remainingContent) {
+            numBytes = this.remainingContent;
+        }
+
+        byte[] bzData = new byte[numBytes];
+        for (int x = 0, y = this.pointer; x < numBytes; x++, y++)
+        {
+            // ??
+            bzData[x] = this.body[y];
+        }
+
+        return bzData;
+    }
+
+    public byte[] readFixedValue() {
+        int length = Base64Encoding.decodeInt32(this.readBytes(2));
+        return this.readBytes(length);
+    }
+
+    public boolean popBase64Boolean() {
+        return (this.remainingContent > 0 && this.body[this.pointer++] == 65);
+    }
+
+    public int popInt32() {
+        return Base64Encoding.decodeInt32(this.readBytes(2));
+    }
+
+    public String popFixedString() {
+        return new String(this.readFixedValue(), StandardCharsets.UTF_8);
+    }
+
+    public int popFixedInt32() {
+        String s = new String(this.readFixedValue(), StandardCharsets.US_ASCII);
+        return Integer.parseInt(s);
+    }
+
+    public boolean popWiredBoolean() {
+        return (this.remainingContent > 0 && this.body[this.pointer++] == WireEncoding.POSITIVE);
+    }
+
+    public int popWiredInt32() {
+        if (this.remainingContent == 0) {
             return 0;
         }
-    }
 
-    @Override
-    public boolean readIntAsBool() {
-        try {
-            return this.buffer.readInt() == 1;
-        } catch (Exception e) {
-            return false;
-        }
-    }
+        byte[] bzData = this.readBytesFreezeCursor(WireEncoding.MAX_INTEGER_BYTE_AMOUNT);
+        int totalBytes = 0;
+        int i = WireEncoding.DecodeInt32(bzData, totalBytes);
+        totalBytes = WireEncoding.currentTotalBytes;
 
-    @Override
-    public boolean readBoolean() {
-        try {
-            return this.buffer.readByte() == 1;
-        } catch (Exception e)    {
-            return false;
-        }
-    }
-
-    @Override
-    public String readString() {
-        try {
-            int length = this.buffer.readShort();
-            byte[] data = this.readBytes(this.length);
-
-            return new String(data);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @Override
-    public byte[] readBytes(int len) {
-        try {
-            byte[] payload = new byte[len];
-            this.buffer.readBytes(payload);
-            return payload;
-
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @Override
-    public String getMessageBody() {
-        String consoleText = this.buffer.toString(Charset.defaultCharset());
-
-        for (int i = 0; i < 13; i++) {
-            consoleText = consoleText.replace(Character.toString((char)i), "[" + i + "]");
-        }
-
-        return consoleText;
-    }
-
-    @Override
-    public int getMessageId() {
-        return this.header;
-    }
-
-    @Override
-    public int getLength() {
-        return this.length;
-    }
-
-    public ByteBuf getBuffer() {
-        return buffer;
+        this.pointer = this.pointer + totalBytes;
+        return i;
     }
 }

@@ -1,5 +1,6 @@
 package com.scuti.server.netty.codec;
 
+import com.scuti.encoding.Base64Encoding;
 import com.scuti.server.netty.streams.NettyRequest;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -18,7 +19,6 @@ public class NetworkDecoder extends ByteToMessageDecoder {
         buffer.markReaderIndex();
 
         if (buffer.readableBytes() < 6) {
-            // size of incoming data < 6 => peta enft
             return;
         }
 
@@ -38,7 +38,7 @@ public class NetworkDecoder extends ByteToMessageDecoder {
         } else {
 
             buffer.markReaderIndex();
-            int length = buffer.readInt();
+            int length = Base64Encoding.decodeInt32(new byte[] {buffer.readByte(), buffer.readByte(), buffer.readByte()});
 
             if (buffer.readableBytes() < length) {
                 buffer.resetReaderIndex();
@@ -49,8 +49,15 @@ public class NetworkDecoder extends ByteToMessageDecoder {
                 return;
             }
 
-            NettyRequest request = new NettyRequest(length, buffer.readBytes(length));
+            int messageHeader = Base64Encoding.decodeInt32(new byte[] {buffer.readByte(), buffer.readByte()});
+            byte[] message = new byte[length - 2];
+
+            buffer.readBytes(message, 0, message.length);
+
+            NettyRequest request = new NettyRequest(messageHeader, message);
             out.add(request);
+
+            System.out.println(messageHeader);
         }
     }
 }
