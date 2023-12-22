@@ -1,6 +1,6 @@
 package com.scuti.server.netty.connections;
 
-import com.scuti.server.game.users.User;
+import com.scuti.users.User;
 import com.scuti.server.netty.NettyPlayerNetwork;
 import com.scuti.server.netty.NettyServer;
 import com.scuti.server.netty.streams.NettyRequest;

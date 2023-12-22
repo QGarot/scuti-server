@@ -1,4 +1,4 @@
-package com.scuti.server.game.users;
+package com.scuti.users;
 
 import com.scuti.api.netty.PlayerNetwork;
 
