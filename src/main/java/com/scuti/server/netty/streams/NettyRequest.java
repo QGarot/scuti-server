@@ -22,6 +22,10 @@ public class NettyRequest {
         }
     }
 
+    public int getHeader() {
+        return this.messageId;
+    }
+
     public void reset() {
         this.pointer = 0;
     }

@@ -1,6 +1,7 @@
 package com.scuti.server.netty.connections;
 
-import com.scuti.users.User;
+import com.scuti.game.users.User;
+import com.scuti.messages.MessageHandler;
 import com.scuti.server.netty.NettyPlayerNetwork;
 import com.scuti.server.netty.NettyServer;
 import com.scuti.server.netty.streams.NettyRequest;
@@ -31,6 +32,7 @@ public class ConnectionHandler extends SimpleChannelInboundHandler<NettyRequest>
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, NettyRequest message) throws Exception {
         // << MessageHandler.handleRequest(player, message) >>
+        //MessageHandler.getInstance().handle();
     }
 
     @Override
