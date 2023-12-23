@@ -2,6 +2,7 @@ package com.scuti.server.netty.codec;
 
 import com.scuti.server.encoding.Base64Encoding;
 import com.scuti.server.netty.streams.NettyRequest;
+import com.scuti.util.logger.Logger;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -34,7 +35,7 @@ public class NetworkDecoder extends ByteToMessageDecoder {
 
             ChannelFuture future = ctx.channel().writeAndFlush(Unpooled.copiedBuffer(policy.getBytes()));
             future.addListener(ChannelFutureListener.CLOSE);
-
+            Logger.logInfo("Policy sent");
         } else {
 
             buffer.markReaderIndex();
@@ -56,8 +57,6 @@ public class NetworkDecoder extends ByteToMessageDecoder {
 
             NettyRequest request = new NettyRequest(messageHeader, message);
             out.add(request);
-
-            System.out.println(messageHeader);
         }
     }
 }

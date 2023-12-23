@@ -1,5 +1,6 @@
 package com.scuti.server.netty;
 
+import com.scuti.util.logger.Logger;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.UnpooledByteBufAllocator;
 import io.netty.channel.*;
@@ -50,11 +51,11 @@ public class NettyServer  {
 
         this.bootstrap.bind(new InetSocketAddress(this.ip, this.port)).addListener(objectFuture -> {
             if (!objectFuture.isSuccess()) {
-                System.out.println("Failed to start server on address: {}:{}");
+                Logger.logError("Failed to start server on address: {}:{}");
                 System.out.println("Please double check there's no programs using the same port, and you have set the correct IP address to listen on.");
             } else {
-                System.out.println("Server is listening on " + this.ip + ":{" + this.port.toString() + "}");
-                System.out.println("Ready for connections!");
+                Logger.logInfo("Server is listening on " + this.ip + ":{" + this.port.toString() + "}");
+                Logger.logInfo("Ready for connections!");
             }
         });
 

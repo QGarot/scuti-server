@@ -1,14 +1,13 @@
 package com.scuti.game.users;
-
-import com.scuti.api.netty.PlayerNetwork;
+import com.scuti.server.netty.NettyPlayerNetwork;
 
 public class User {
-    private final PlayerNetwork network;
-    public User(PlayerNetwork network) {
+    private final NettyPlayerNetwork network;
+    public User(NettyPlayerNetwork network) {
         this.network = network;
     }
 
-    public PlayerNetwork getNetwork() {
-        return network;
+    public NettyPlayerNetwork getNetwork() {
+        return this.network;
     }
 }

@@ -1,6 +1,7 @@
 package com.scuti.messages;
 
 import com.scuti.messages.incoming.MessageEvent;
+import com.scuti.messages.incoming.handshake.InitCryptoMessageEvent;
 import com.scuti.server.netty.streams.NettyRequest;
 import com.scuti.game.users.User;
 import com.scuti.util.logger.Logger;
@@ -8,11 +9,18 @@ import com.scuti.util.logger.Logger;
 import java.util.HashMap;
 
 public class MessageHandler {
-    private HashMap<int, MessageEvent> packets;
+    private HashMap<Integer, MessageEvent> packets;
     private static MessageHandler instance;
 
     private MessageHandler() {
-        this.packets = new HashMap<int, MessageEvent>();
+        this.packets = new HashMap<Integer, MessageEvent>();
+
+        // Handshake
+        this.registerHandshake();
+    }
+
+    private void registerHandshake() {
+        this.packets.put(206, new InitCryptoMessageEvent());
     }
 
     public void handle(User user, NettyRequest clientMessage) {
@@ -20,6 +28,8 @@ public class MessageHandler {
         if (this.packets.containsKey(header)) {
             this.packets.get(header).handle(user, clientMessage);
             Logger.logIncoming(header);
+        } else {
+            Logger.logWarning("This packet cannot be handled!");
         }
     }
 

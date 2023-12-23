@@ -15,11 +15,12 @@ public class NettyRequest {
     public NettyRequest(int messageId, byte[] body) {
         if (body == null) {
             body = new byte[0];
-            this.messageId = messageId;
-            this.body = body;
-            this.pointer = 0;
-            this.remainingContent = this.body.length - this.pointer;
         }
+
+        this.messageId = messageId;
+        this.body = body;
+        this.pointer = 0;
+        this.remainingContent = this.body.length - this.pointer;
     }
 
     public int getHeader() {

@@ -13,6 +13,10 @@ public class NettyPlayerNetwork implements PlayerNetwork {
         this.channel = channel;
     }
 
+    public Channel getChannel() {
+        return this.channel;
+    }
+
     @Override
     public void addPipelineStage(Object object) {
 

@@ -18,6 +18,6 @@ public class Logger {
     }
 
     public static void logIncoming(int header) {
-        System.out.println(">> ".concat(Integer.toString(header)));
+        System.out.println(">> (Incoming) n°".concat(Integer.toString(header)));
     }
 }
