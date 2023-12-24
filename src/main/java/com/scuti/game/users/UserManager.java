@@ -3,7 +3,6 @@ package com.scuti.game.users;
 import io.netty.channel.Channel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class UserManager {
@@ -46,5 +45,9 @@ public class UserManager {
             }
         }
         return null;
+    }
+
+    public List<User> getUsers() {
+        return this.users;
     }
 }

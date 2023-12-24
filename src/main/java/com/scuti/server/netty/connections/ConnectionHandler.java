@@ -11,6 +11,8 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+import java.util.Objects;
+
 public class ConnectionHandler extends SimpleChannelInboundHandler<NettyRequest> {
 
     private NettyServer server;
@@ -21,9 +23,22 @@ public class ConnectionHandler extends SimpleChannelInboundHandler<NettyRequest>
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        Logger.logInfo("Connection from ".concat(ctx.channel().localAddress().toString()));
-        User user = new User(new NettyPlayerNetwork(ctx.channel(), ctx.channel().hashCode()));
+        NettyPlayerNetwork network = new NettyPlayerNetwork(ctx.channel(), ctx.channel().hashCode());
+
+        int maxConnectionPerIp = 1;
+        int count = 0;
+        for (User user: UserManager.getInstance().getUsers()) {
+            if (Objects.equals(user.getNetwork().getIpAddress(), network.getIpAddress())) {
+                count = count + 1;
+            }
+        }
+
+        User user = new User(network);
         UserManager.getInstance().addUser(user);
+        if (count >= maxConnectionPerIp) {
+            user.getNetwork().getChannel().close();
+            Logger.logInfo("Connection failed from ".concat(user.getNetwork().getIpAddress()).concat(". Max connection per ip is ".concat(String.valueOf(maxConnectionPerIp))));
+        }
     }
 
     @Override
@@ -32,7 +47,7 @@ public class ConnectionHandler extends SimpleChannelInboundHandler<NettyRequest>
 
         User user = UserManager.getInstance().getUserByChannel(ctx.channel());
         UserManager.getInstance().removeUser(user);
-        Logger.logInfo("Disconnection from ".concat(ctx.channel().localAddress().toString()));
+        Logger.logInfo("Disconnection from ".concat(user.getNetwork().getIpAddress()));
     }
 
     @Override

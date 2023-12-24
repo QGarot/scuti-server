@@ -44,4 +44,8 @@ public class NettyPlayerNetwork implements PlayerNetwork {
     public void flush() {
         this.channel.flush();
     }
+
+    public String getIpAddress() {
+        return this.getChannel().remoteAddress().toString().replace("/", "").split(":")[0];
+    }
 }
