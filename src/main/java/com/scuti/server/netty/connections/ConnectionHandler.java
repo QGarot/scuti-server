@@ -23,12 +23,13 @@ public class ConnectionHandler extends SimpleChannelInboundHandler<NettyRequest>
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         Logger.logInfo("Connection from ".concat(ctx.channel().localAddress().toString()));
         User user = new User(new NettyPlayerNetwork(ctx.channel(), ctx.channel().hashCode()));
+        UserManager.getInstance().addUser(user);
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
         this.server.getChannels().remove(ctx.channel());
-        // Disconnection from...
+        //UserManager.getInstance().
         Logger.logInfo("Disconnection from ".concat(ctx.channel().localAddress().toString()));
     }
 

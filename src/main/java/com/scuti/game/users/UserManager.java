@@ -22,6 +22,10 @@ public class UserManager {
         return instance;
     }
 
+    public void addUser(User user) {
+        this.users.add(user);
+    }
+
     public User getUserByChannel(Channel channel) {
         for (User user: this.users) {
             if (user.getNetwork().getChannel() == channel) {

@@ -11,8 +11,8 @@ public class NettyResponse {
     private int id;
     private final ArrayList<Byte> body = new ArrayList<Byte>();
 
-    public NettyResponse(int message_id) {
-        this.id = message_id;
+    public NettyResponse() {
+
     }
 
     public void clear() {
@@ -49,6 +49,11 @@ public class NettyResponse {
         }
     }
 
+    public void appendStringWithBreak(String s) {
+        this.appendString(s);
+        this.appendByte((byte) 2);
+    }
+
     public byte[] getBytes() {
         byte[] data = new byte[this.body.size() + 3];
         byte[] header = Base64Encoding.encodeInt32(this.id, 2);
@@ -63,5 +68,9 @@ public class NettyResponse {
 
     public int getHeader() {
         return this.id;
+    }
+
+    public void setHeader(int header) {
+        this.id = header;
     }
 }
