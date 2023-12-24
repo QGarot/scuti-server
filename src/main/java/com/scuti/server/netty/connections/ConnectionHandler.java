@@ -29,15 +29,17 @@ public class ConnectionHandler extends SimpleChannelInboundHandler<NettyRequest>
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
         this.server.getChannels().remove(ctx.channel());
-        //UserManager.getInstance().
+
+        User user = UserManager.getInstance().getUserByChannel(ctx.channel());
+        UserManager.getInstance().removeUser(user);
         Logger.logInfo("Disconnection from ".concat(ctx.channel().localAddress().toString()));
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, NettyRequest message) throws Exception {
-        // << MessageHandler.handleRequest(player, message) >>
         Channel channel = ctx.channel();
         User user = UserManager.getInstance().getUserByChannel(channel);
+
         MessageHandler.getInstance().handle(user, message);
     }
 

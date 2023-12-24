@@ -26,8 +26,8 @@ public class MessageHandler {
     public void handle(User user, NettyRequest clientMessage) {
         int header = clientMessage.getHeader();
         if (this.packets.containsKey(header)) {
-            this.packets.get(header).handle(user, clientMessage);
             Logger.logIncoming(header);
+            this.packets.get(header).handle(user, clientMessage);
         } else {
             Logger.logWarning("This packet cannot be handled!");
         }
