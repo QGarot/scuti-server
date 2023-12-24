@@ -1,10 +1,9 @@
 package com.scuti.storage;
 
-import com.mysql.jdbc.Driver;
+import com.mysql.cj.jdbc.Driver;
+import com.scuti.util.logger.Logger;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Database {
     private static Database instance;
@@ -14,21 +13,36 @@ public class Database {
     private String name;
     private Connection connection;
 
-    public Database(String host, String username, String password, String name) throws SQLException {
+    public Database(String host, String username, String password, String name) {
         this.host = host;
         this.username = username;
         this.password = password;
         this.name = name;
-        DriverManager.registerDriver(new Driver());
-        this.connection = DriverManager.getConnection("jdbc:mysql://" + this.host + "/" + this.name + "?user=" + this.username + "&password=" + this.password);
+        try {
+            DriverManager.registerDriver(new Driver());
+            this.connection = DriverManager.getConnection("jdbc:mysql://" + this.host + "/" + this.name + "?user=" + this.username + "&password=" + this.password);
+        } catch (Exception e) {
+            Logger.logError(e.getMessage());
+        }
     }
 
-    public static Database getInstance() throws SQLException {
+    public static Database getInstance() {
         if (instance == null) {
             instance = new Database("localhost", "root", "", "scuti");
         }
 
         return instance;
+    }
+
+    public void test() {
+        try (PreparedStatement preparedStatement = this.getConnection().prepareStatement("SELECT * FROM users");
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                System.out.println(resultSet.getString("username"));
+            }
+        } catch (Exception e) {
+            Logger.logError(e.getMessage());
+        }
     }
 
     public Connection getConnection() {

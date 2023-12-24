@@ -3,8 +3,6 @@ package com.scuti;
 import com.scuti.server.netty.NettyServer;
 import com.scuti.storage.Database;
 
-import java.sql.SQLException;
-
 public class Main {
     public static void main(String[] args) {
         System.out.println("  _________              __  .__ ");
@@ -20,7 +18,7 @@ public class Main {
         server.bind();
     }
 
-    public static void initialize() throws SQLException {
+    public static void initialize() {
         Database.getInstance();
     }
 }
