@@ -60,4 +60,8 @@ public class NettyResponse {
         data[data.length - 1] = 1;
         return data;
     }
+
+    public int getHeader() {
+        return this.id;
+    }
 }

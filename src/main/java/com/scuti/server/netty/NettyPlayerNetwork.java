@@ -1,7 +1,8 @@
 package com.scuti.server.netty;
 
 import com.scuti.api.netty.PlayerNetwork;
-import com.scuti.api.messages.MessageComposer;
+import com.scuti.messages.outgoing.MessageComposer;
+import com.scuti.util.logger.Logger;
 import io.netty.channel.Channel;
 
 public class NettyPlayerNetwork implements PlayerNetwork {
@@ -28,13 +29,15 @@ public class NettyPlayerNetwork implements PlayerNetwork {
     }
 
     @Override
-    public void send(MessageComposer response) {
-        this.channel.writeAndFlush(response);
+    public void send(MessageComposer messageComposer) {
+        messageComposer.compose();
+        this.channel.writeAndFlush(messageComposer.getResponse().getBytes());
+        Logger.logOutgoing(messageComposer.getResponse().getHeader());
     }
 
     @Override
-    public void sendQueued(MessageComposer response) {
-        this.channel.write(response);
+    public void sendQueued(MessageComposer messageComposer) {
+
     }
 
     @Override
