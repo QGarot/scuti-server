@@ -1,7 +1,7 @@
 package com.scuti.server.encoding;
 
 public class Base64Encoding {
-    public static byte[] encodeInt32(int i, int numBytes) throws Exception {
+    public static byte[] encodeInt32(int i, int numBytes) {
         byte[] bzRes = new byte[numBytes];
         for (int j = 1 ; j <= numBytes ; j++) {
             int k = ((numBytes - j) * 6);

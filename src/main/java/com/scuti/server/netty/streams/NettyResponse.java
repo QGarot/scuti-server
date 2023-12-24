@@ -1,5 +1,6 @@
 package com.scuti.server.netty.streams;
 
+import com.scuti.server.encoding.Base64Encoding;
 import com.scuti.server.encoding.WireEncoding;
 
 import java.nio.charset.StandardCharsets;
@@ -46,5 +47,17 @@ public class NettyResponse {
         if (s.length() > 0) {
             this.appendBytes(s.getBytes(StandardCharsets.UTF_8));
         }
+    }
+
+    public byte[] getBytes() {
+        byte[] data = new byte[this.body.size() + 3];
+        byte[] header = Base64Encoding.encodeInt32(this.id, 2);
+        data[0] = header[0];
+        data[1] = header[1];
+        for (int i = 0; i < this.body.size(); i++) {
+            data[i + 2] = this.body.get(i);
+        }
+        data[data.length - 1] = 1;
+        return data;
     }
 }
