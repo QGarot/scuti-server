@@ -37,6 +37,7 @@ public class ConnectionHandler extends SimpleChannelInboundHandler<NettyRequest>
         UserManager.getInstance().addUser(user);
         if (count >= maxConnectionPerIp) {
             user.getNetwork().getChannel().close();
+            user.getNetwork().close();
             Logger.logInfo("Connection failed from ".concat(user.getNetwork().getIpAddress()).concat(". Max connection per ip is ".concat(String.valueOf(maxConnectionPerIp))));
         }
     }
