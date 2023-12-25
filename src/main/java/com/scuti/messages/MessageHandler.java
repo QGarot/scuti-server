@@ -1,8 +1,11 @@
 package com.scuti.messages;
 
 import com.scuti.messages.incoming.MessageEvent;
+import com.scuti.messages.incoming.handshake.InfoRetrieveMessageComposer;
 import com.scuti.messages.incoming.handshake.InitCryptoMessageEvent;
 import com.scuti.messages.incoming.handshake.SSOTicketMessageEvent;
+import com.scuti.messages.incoming.inventory.purse.GetCreditsInfoMessageEvent;
+import com.scuti.messages.incoming.tracking.EventLogMessageEvent;
 import com.scuti.server.netty.streams.NettyRequest;
 import com.scuti.game.users.User;
 import com.scuti.util.logger.Logger;
@@ -14,15 +17,25 @@ public class MessageHandler {
     private static MessageHandler instance;
 
     private MessageHandler() {
-        this.packets = new HashMap<Integer, MessageEvent>();
+        this.packets = new HashMap<>();
 
-        // Handshake
         this.registerHandshake();
+        this.registerTracking();
+        this.registerInventory();
     }
 
     private void registerHandshake() {
         this.packets.put(206, new InitCryptoMessageEvent());
         this.packets.put(415, new SSOTicketMessageEvent());
+        this.packets.put(7, new InfoRetrieveMessageComposer());
+    }
+
+    public void registerInventory() {
+        this.packets.put(8, new GetCreditsInfoMessageEvent());
+    }
+
+    private void registerTracking() {
+        this.packets.put(482, new EventLogMessageEvent());
     }
 
     public void handle(User user, NettyRequest clientMessage) {
