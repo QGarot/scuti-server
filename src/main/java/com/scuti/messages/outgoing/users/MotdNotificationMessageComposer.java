@@ -1,7 +1,6 @@
 package com.scuti.messages.outgoing.users;
 
 import com.scuti.messages.outgoing.MessageComposer;
-import com.scuti.server.netty.streams.NettyResponse;
 
 public class MotdNotificationMessageComposer extends MessageComposer {
     public MotdNotificationMessageComposer() {

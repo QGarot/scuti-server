@@ -2,6 +2,7 @@ package com.scuti.messages;
 
 import com.scuti.messages.incoming.MessageEvent;
 import com.scuti.messages.incoming.handshake.InitCryptoMessageEvent;
+import com.scuti.messages.incoming.handshake.SSOTicketMessageEvent;
 import com.scuti.server.netty.streams.NettyRequest;
 import com.scuti.game.users.User;
 import com.scuti.util.logger.Logger;
@@ -21,6 +22,7 @@ public class MessageHandler {
 
     private void registerHandshake() {
         this.packets.put(206, new InitCryptoMessageEvent());
+        this.packets.put(415, new SSOTicketMessageEvent());
     }
 
     public void handle(User user, NettyRequest clientMessage) {
@@ -29,7 +31,7 @@ public class MessageHandler {
             Logger.logIncoming(header);
             this.packets.get(header).handle(user, clientMessage);
         } else {
-            Logger.logWarning("This packet cannot be handled!");
+            Logger.logWarning("The packet " + header + " cannot be handled!");
         }
     }
 
