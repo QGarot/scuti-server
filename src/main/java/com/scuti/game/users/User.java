@@ -1,6 +1,7 @@
 package com.scuti.game.users;
 import com.scuti.game.users.components.UserDetails;
 import com.scuti.messages.outgoing.MessageComposer;
+import com.scuti.messages.outgoing.handshake.DisconnectReasonMessageComposer;
 import com.scuti.server.netty.NettyPlayerNetwork;
 import com.scuti.util.logger.Logger;
 
@@ -27,5 +28,10 @@ public class User {
         } catch (Exception e) {
             Logger.logError(e.getMessage());
         }
+    }
+
+    public void disconnect() {
+        this.getNetwork().close();
+        this.send(new DisconnectReasonMessageComposer(1));
     }
 }
