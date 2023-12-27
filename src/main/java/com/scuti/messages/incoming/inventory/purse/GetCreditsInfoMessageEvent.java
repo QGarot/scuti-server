@@ -14,7 +14,7 @@ public class GetCreditsInfoMessageEvent extends MessageEvent {
         int shells = user.getDetails().getShells();
 
         user.send(new CreditBalanceMessageComposer(credits));
-        user.send(new HabboActivityPointNotificationMessageComposer(0, shells));
-        user.send(new HabboActivityPointNotificationMessageComposer(4, pixels));
+        user.send(new HabboActivityPointNotificationMessageComposer(0, pixels));
+        user.send(new HabboActivityPointNotificationMessageComposer(4, shells));
     }
 }
