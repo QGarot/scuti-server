@@ -21,7 +21,8 @@ public class MessengerInitMessageComposer extends MessageComposer {
         this.getResponse().appendInt32(200); // normal friend limit
         this.getResponse().appendInt32(6000); // extended friend limit
         this.getResponse().appendInt32(900); // "even more extended friend limit" (lol)
-        this.getResponse().appendInt32(0);
+
+        this.getResponse().appendInt32(0); // number of categories
         // categories
         //this.getResponse().appendInt32(1); //id
         //this.getResponse().appendStringWithBreak("cat1"); //name
