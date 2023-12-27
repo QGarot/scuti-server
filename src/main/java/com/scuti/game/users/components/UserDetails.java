@@ -14,12 +14,13 @@ public class UserDetails {
     private int shells;
     private int respect;
     private int dailyRespectPoints;
+    private boolean online;
 
     public UserDetails() {
 
     }
 
-    public void fill(int id, String username, String email, String figure, String motto, String sex, String ssoTicket, int rank, int credits, int pixels, int shells) {
+    public void fill(int id, String username, String email, String figure, String motto, String sex, String ssoTicket, int rank, int credits, int pixels, int shells, boolean online) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -33,6 +34,15 @@ public class UserDetails {
         this.shells = shells;
         this.respect = 0;
         this.dailyRespectPoints = 3;
+        this.online = online;
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean bool) {
+        this.online = bool;
     }
 
     public void setId(int id) {

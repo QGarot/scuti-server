@@ -25,7 +25,7 @@ public class ConnectionHandler extends SimpleChannelInboundHandler<NettyRequest>
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         NettyPlayerNetwork network = new NettyPlayerNetwork(ctx.channel(), ctx.channel().hashCode());
 
-        int maxConnectionPerIp = 1;
+        int maxConnectionPerIp = 2;
         int count = 0;
         for (User user: UserManager.getInstance().getUsers()) {
             if (Objects.equals(user.getNetwork().getIpAddress(), network.getIpAddress())) {

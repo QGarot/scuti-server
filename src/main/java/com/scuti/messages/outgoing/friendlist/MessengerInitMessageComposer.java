@@ -1,19 +1,26 @@
 package com.scuti.messages.outgoing.friendlist;
 
+import com.scuti.game.users.components.Messenger;
+import com.scuti.game.users.friends.Buddy;
 import com.scuti.messages.outgoing.MessageComposer;
 
 public class MessengerInitMessageComposer extends MessageComposer {
-    public MessengerInitMessageComposer() {
+    private Messenger messenger;
+    public MessengerInitMessageComposer(Messenger messenger) {
         this.getResponse().setHeader(12);
+        this.messenger = messenger;
+    }
+
+    public Messenger getMessenger() {
+        return messenger;
     }
 
     @Override
     public void compose() {
-        this.getResponse().appendInt32(200); // user friend limit
+        this.getResponse().appendInt32(6000); // user friend limit
         this.getResponse().appendInt32(200); // normal friend limit
-        this.getResponse().appendInt32(200); // extended friend limit
-        this.getResponse().appendInt32(200); // "even more extended friend limit" (lol)
-
+        this.getResponse().appendInt32(6000); // extended friend limit
+        this.getResponse().appendInt32(900); // "even more extended friend limit" (lol)
         this.getResponse().appendInt32(0);
         // categories
         //this.getResponse().appendInt32(1); //id
@@ -21,18 +28,20 @@ public class MessengerInitMessageComposer extends MessageComposer {
         //this.getResponse().appendInt32(2);
         //this.getResponse().appendStringWithBreak("cat2");
 
-        this.getResponse().appendInt32(1); // number of friends..
+        this.getResponse().appendInt32(this.getMessenger().getBuddies().size()); // number of friends..
         // friends
-        this.getResponse().appendInt32(1); // id
-        this.getResponse().appendStringWithBreak("KOZEN"); // name
-        this.getResponse().appendInt32(1); // gender
-        this.getResponse().appendBoolean(true); // online
-        this.getResponse().appendBoolean(true); // following allowed
-        this.getResponse().appendStringWithBreak("hr-115-42.hd-190-1.ch-215-62.lg-285-91.sh-290-62"); // figure
-        this.getResponse().appendInt32(1); // category id
-        this.getResponse().appendStringWithBreak("Hi Scuti :p"); // motto
-        this.getResponse().appendStringWithBreak("27/12/2023"); // last access
-        this.getResponse().appendStringWithBreak(""); // real name
-        this.getResponse().appendStringWithBreak("facebook"); // facebook id
+        for (Buddy buddy: this.getMessenger().getBuddies()) {
+            this.getResponse().appendInt32(buddy.getId()); // id
+            this.getResponse().appendStringWithBreak(buddy.getUsername()); // name
+            this.getResponse().appendInt32(buddy.getGender()); // gender
+            this.getResponse().appendBoolean(!buddy.isOnline()); // online
+            this.getResponse().appendBoolean(buddy.isFollowingAllowed()); // following allowed
+            this.getResponse().appendStringWithBreak(buddy.getFigure()); // figure
+            this.getResponse().appendInt32(buddy.isOnline() ? 0 : -1); // category id
+            this.getResponse().appendStringWithBreak(buddy.getMotto()); // motto
+            this.getResponse().appendStringWithBreak(buddy.getLastLogin()); // last access
+            this.getResponse().appendStringWithBreak(""); // real name
+            this.getResponse().appendStringWithBreak(buddy.getFacebookId()); // facebook id
+        }
     }
 }

@@ -14,6 +14,8 @@ public class SSOTicketMessageEvent extends MessageEvent {
         String ticket = clientMessage.popFixedString();
         Logger.logInfo("An user is trying to log with SSO : \"".concat(ticket).concat("\""));
         if (UserDao.loginSSO(user, ticket)) {
+            user.login();
+            UserDao.saveDetails(user);
             Logger.logInfo(user.getDetails().getUsername().concat(" is now connected!"));
             user.send(new AuthenticationOKMessageComposer());
             user.send(new MotdNotificationMessageComposer());

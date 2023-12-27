@@ -47,6 +47,15 @@ public class UserManager {
         return null;
     }
 
+    public User getUserById(int id) {
+        for (User user: this.users) {
+            if (user.getDetails().getId() == id) {
+                return user;
+            }
+        }
+        return null;
+    }
+
     public List<User> getUsers() {
         return this.users;
     }
