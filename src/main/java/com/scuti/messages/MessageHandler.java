@@ -1,6 +1,7 @@
 package com.scuti.messages;
 
 import com.scuti.messages.incoming.MessageEvent;
+import com.scuti.messages.incoming.friendlist.MessengerInitMessageEvent;
 import com.scuti.messages.incoming.handshake.InfoRetrieveMessageComposer;
 import com.scuti.messages.incoming.handshake.InitCryptoMessageEvent;
 import com.scuti.messages.incoming.handshake.SSOTicketMessageEvent;
@@ -22,6 +23,7 @@ public class MessageHandler {
         this.registerHandshake();
         this.registerTracking();
         this.registerInventory();
+        this.registerFriendList();
     }
 
     private void registerHandshake() {
@@ -36,6 +38,10 @@ public class MessageHandler {
 
     private void registerTracking() {
         this.packets.put(482, new EventLogMessageEvent());
+    }
+
+    private void registerFriendList() {
+        this.packets.put(12, new MessengerInitMessageEvent());
     }
 
     public void handle(User user, NettyRequest clientMessage) {
