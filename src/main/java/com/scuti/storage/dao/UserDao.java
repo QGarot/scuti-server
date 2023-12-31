@@ -9,37 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class UserDao {
-    public static void fillFriendsOf(User user) {
-        String sql = "SELECT users.id, users.username, users.gender, users.look, buddies.category_id, users.motto, buddies.following_allowed, users.online " +
-                "FROM buddies " +
-                "JOIN users ON users.id = buddies.user2_id " +
-                "WHERE user1_id = ?;";
-        // clear buddies list
-        user.getMessenger().getBuddies().clear();
-        // fill buddies list
-        try(PreparedStatement preparedStatement = Database.getInstance().getConnection().prepareStatement(sql)) {
-            preparedStatement.setInt(1, user.getDetails().getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String username = resultSet.getString("username");
-                int gender = resultSet.getString("gender") == "M" ? 1 : 0;
-                boolean online = resultSet.getBoolean("online");
-                boolean followingAllowed = resultSet.getBoolean("following_allowed");
-                String figure = resultSet.getString("look");
-                int categoryId = resultSet.getInt("category_id");
-                String motto = resultSet.getString("motto");
-                String lastLogin = ""; // TODO
-                String facebookId = ""; // TODO
-
-                Buddy buddy = new Buddy(id, username, gender, online, followingAllowed, figure, categoryId, motto, lastLogin, facebookId);
-                user.getMessenger().addBuddy(buddy);
-            }
-        } catch (Exception e) {
-            Logger.logError(e.getMessage());
-        }
-    }
-
     public static void saveDetails(User user) {
         String sql = "UPDATE users " +
                 "SET username = ?, look = ?, motto = ?, rank = ?, credits = ?, pixels = ?, shells = ?, online = ? " +

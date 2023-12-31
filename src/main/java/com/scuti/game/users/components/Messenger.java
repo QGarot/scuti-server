@@ -26,6 +26,15 @@ public class Messenger {
         this.buddies.add(buddy);
     }
 
+    public boolean isBuddy(int userId) {
+        for (Buddy buddy: this.getBuddies()) {
+            if (buddy.getId() == userId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void deleteBuddy(Buddy buddy) {
         this.buddies.remove(buddy);
     }

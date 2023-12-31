@@ -1,6 +1,7 @@
 package com.scuti.messages;
 
 import com.scuti.messages.incoming.MessageEvent;
+import com.scuti.messages.incoming.friendlist.HabboSearchMessageEvent;
 import com.scuti.messages.incoming.friendlist.MessengerInitMessageEvent;
 import com.scuti.messages.incoming.friendlist.SendMsgMessageEvent;
 import com.scuti.messages.incoming.handshake.InfoRetrieveMessageComposer;
@@ -44,6 +45,7 @@ public class MessageHandler {
     private void registerFriendList() {
         this.packets.put(12, new MessengerInitMessageEvent());
         this.packets.put(33, new SendMsgMessageEvent());
+        this.packets.put(41, new HabboSearchMessageEvent());
     }
 
     public void handle(User user, NettyRequest clientMessage) {
