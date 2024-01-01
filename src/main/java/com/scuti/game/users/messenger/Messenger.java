@@ -1,6 +1,4 @@
-package com.scuti.game.users.components;
-
-import com.scuti.game.users.friends.Buddy;
+package com.scuti.game.users.messenger;
 
 import java.util.ArrayList;
 import java.util.List;

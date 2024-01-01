@@ -1,7 +1,7 @@
 package com.scuti.messages.outgoing.friendlist;
 
-import com.scuti.game.users.components.Messenger;
-import com.scuti.game.users.friends.Buddy;
+import com.scuti.game.users.messenger.Messenger;
+import com.scuti.game.users.messenger.Buddy;
 import com.scuti.messages.outgoing.MessageComposer;
 
 public class MessengerInitMessageComposer extends MessageComposer {
@@ -13,6 +13,20 @@ public class MessengerInitMessageComposer extends MessageComposer {
 
     public Messenger getMessenger() {
         return messenger;
+    }
+
+    public void serializeBuddy(Buddy buddy) {
+        this.getResponse().appendInt32(buddy.getId()); // id
+        this.getResponse().appendStringWithBreak(buddy.getUsername()); // name
+        this.getResponse().appendInt32(buddy.getGender()); // gender
+        this.getResponse().appendBoolean(!buddy.isOnline()); // online
+        this.getResponse().appendBoolean(buddy.isFollowingAllowed()); // following allowed
+        this.getResponse().appendStringWithBreak(buddy.getFigure()); // figure
+        this.getResponse().appendInt32(buddy.getCategoryId()); // category id
+        this.getResponse().appendStringWithBreak(buddy.getMotto()); // motto
+        this.getResponse().appendStringWithBreak(buddy.getLastLogin()); // last access
+        this.getResponse().appendStringWithBreak(""); // real name
+        this.getResponse().appendStringWithBreak(buddy.getFacebookId()); // facebook id
     }
 
     @Override
@@ -32,17 +46,7 @@ public class MessengerInitMessageComposer extends MessageComposer {
         this.getResponse().appendInt32(this.getMessenger().getBuddies().size()); // number of friends..
         // friends
         for (Buddy buddy: this.getMessenger().getBuddies()) {
-            this.getResponse().appendInt32(buddy.getId()); // id
-            this.getResponse().appendStringWithBreak(buddy.getUsername()); // name
-            this.getResponse().appendInt32(buddy.getGender()); // gender
-            this.getResponse().appendBoolean(!buddy.isOnline()); // online
-            this.getResponse().appendBoolean(buddy.isFollowingAllowed()); // following allowed
-            this.getResponse().appendStringWithBreak(buddy.getFigure()); // figure
-            this.getResponse().appendInt32(buddy.isOnline() ? 0 : -1); // category id
-            this.getResponse().appendStringWithBreak(buddy.getMotto()); // motto
-            this.getResponse().appendStringWithBreak(buddy.getLastLogin()); // last access
-            this.getResponse().appendStringWithBreak(""); // real name
-            this.getResponse().appendStringWithBreak(buddy.getFacebookId()); // facebook id
+            this.serializeBuddy(buddy);
         }
     }
 }

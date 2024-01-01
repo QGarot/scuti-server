@@ -1,7 +1,8 @@
 package com.scuti.storage.dao;
 
 import com.scuti.game.users.User;
-import com.scuti.game.users.friends.Buddy;
+import com.scuti.game.users.messenger.Buddy;
+import com.scuti.game.users.messenger.UserSearched;
 import com.scuti.storage.Database;
 import com.scuti.util.logger.Logger;
 
@@ -11,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FriendDao {
-    public static List<Buddy> getBuddiesByUsername(String username) {
-        ArrayList<Buddy> buddies = new ArrayList<>();
+    public static List<UserSearched> getUsersByUsername(String username) {
+        ArrayList<UserSearched> usersSearched = new ArrayList<>();
         String sql = "SELECT id, username, gender, look, motto, online " +
                 "FROM users " +
                 "WHERE username LIKE ? LIMIT 10";
@@ -27,14 +28,14 @@ public class FriendDao {
                 String figure = resultSet.getString("look");
                 String motto = resultSet.getString("motto");
 
-                Buddy buddy = new Buddy(id, username, gender, online, true, figure, 0, motto, "", "");
-                buddies.add(buddy);
+                UserSearched user = new UserSearched(id, username, gender, online, false, figure, motto, "");
+                usersSearched.add(user);
             }
         } catch (Exception e) {
             Logger.logError(e.getMessage());
         }
 
-        return buddies;
+        return usersSearched;
     }
     public static void fillFriendsOf(User user) {
         String sql = "SELECT users.id, users.username, users.gender, users.look, buddies.category_id, users.motto, buddies.following_allowed, users.online " +

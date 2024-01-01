@@ -1,7 +1,6 @@
 package com.scuti.storage.dao;
 
 import com.scuti.game.users.User;
-import com.scuti.game.users.friends.Buddy;
 import com.scuti.storage.Database;
 import com.scuti.util.logger.Logger;
 

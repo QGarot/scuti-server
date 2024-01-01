@@ -1,5 +1,5 @@
 package com.scuti.game.users;
-import com.scuti.game.users.components.Messenger;
+import com.scuti.game.users.messenger.Messenger;
 import com.scuti.game.users.components.UserDetails;
 import com.scuti.messages.outgoing.MessageComposer;
 import com.scuti.messages.outgoing.handshake.DisconnectReasonMessageComposer;

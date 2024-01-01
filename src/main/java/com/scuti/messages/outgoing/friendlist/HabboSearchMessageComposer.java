@@ -1,50 +1,50 @@
 package com.scuti.messages.outgoing.friendlist;
 
-import com.scuti.game.users.friends.Buddy;
+import com.scuti.game.users.messenger.UserSearched;
 import com.scuti.messages.outgoing.MessageComposer;
 
 import java.util.List;
 
 public class HabboSearchMessageComposer extends MessageComposer {
-    private List<Buddy> friends;
-    private List<Buddy> others;
-    public HabboSearchMessageComposer(List<Buddy> friends, List<Buddy> others) {
+    private List<UserSearched> friends;
+    private List<UserSearched> others;
+    public HabboSearchMessageComposer(List<UserSearched> friends, List<UserSearched> others) {
         this.getResponse().setHeader(435);
         this.friends = friends;
         this.others = others;
     }
 
-    public List<Buddy> getFriends() {
+    public List<UserSearched> getFriends() {
         return friends;
     }
 
-    public List<Buddy> getOthers() {
+    public List<UserSearched> getOthers() {
         return others;
     }
 
-    public void serializeBuddy(Buddy buddy) {
-        this.getResponse().appendInt32(buddy.getId()); // id
-        this.getResponse().appendStringWithBreak(buddy.getUsername()); // name
-        this.getResponse().appendStringWithBreak(buddy.getMotto()); // motto
-        this.getResponse().appendBoolean(buddy.isOnline()); // online
-        this.getResponse().appendBoolean(buddy.isFollowingAllowed()); // following allowed
-        this.getResponse().appendStringWithBreak("");
-        this.getResponse().appendInt32(0); // ??
-        this.getResponse().appendStringWithBreak(buddy.getFigure()); // figure
-        this.getResponse().appendStringWithBreak(buddy.getLastLogin()); // last login
+    public void serialize(UserSearched user) {
+        this.getResponse().appendInt32(user.getId()); // id
+        this.getResponse().appendStringWithBreak(user.getUsername()); // name
+        this.getResponse().appendStringWithBreak(user.getMotto()); // motto
+        this.getResponse().appendBoolean(user.isOnline()); // online
+        this.getResponse().appendBoolean(user.isFollowingAllowed()); // following allowed
+        this.getResponse().appendStringWithBreak(""); // ?
+        this.getResponse().appendInt32(user.getGender()); // gender
+        this.getResponse().appendStringWithBreak(user.getFigure()); // figure
+        this.getResponse().appendStringWithBreak(user.getLastLogin()); // last login
         this.getResponse().appendStringWithBreak(""); // real name
     }
 
     @Override
     public void compose() {
         this.getResponse().appendInt32(this.getFriends().size());
-        for (Buddy buddy: this.getFriends()) {
-            this.serializeBuddy(buddy);
+        for (UserSearched user: this.getFriends()) {
+            this.serialize(user);
         }
 
         this.getResponse().appendInt32(this.getOthers().size());
-        for (Buddy buddy: this.getOthers()) {
-            this.serializeBuddy(buddy);
+        for (UserSearched user: this.getOthers()) {
+            this.serialize(user);
         }
     }
 }

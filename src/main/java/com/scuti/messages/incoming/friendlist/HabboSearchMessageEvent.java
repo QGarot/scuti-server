@@ -1,7 +1,8 @@
 package com.scuti.messages.incoming.friendlist;
 
 import com.scuti.game.users.User;
-import com.scuti.game.users.friends.Buddy;
+import com.scuti.game.users.messenger.Buddy;
+import com.scuti.game.users.messenger.UserSearched;
 import com.scuti.messages.incoming.MessageEvent;
 import com.scuti.messages.outgoing.friendlist.HabboSearchMessageComposer;
 import com.scuti.server.netty.streams.NettyRequest;
@@ -14,16 +15,16 @@ public class HabboSearchMessageEvent extends MessageEvent {
     @Override
     public void handle(User user, NettyRequest clientMessage) {
         String username = clientMessage.popFixedString();
-        List<Buddy> buddies = FriendDao.getBuddiesByUsername(username);
+        List<UserSearched> users = FriendDao.getUsersByUsername(username);
 
-        List<Buddy> friends = new ArrayList<>();
-        List<Buddy> others = new ArrayList<>();
+        List<UserSearched> friends = new ArrayList<>();
+        List<UserSearched> others = new ArrayList<>();
 
-        for (Buddy buddy: buddies) {
-            if (user.getMessenger().isBuddy(buddy.getId())) {
-                friends.add(buddy);
+        for (UserSearched userSearched: users) {
+            if (user.getMessenger().isBuddy(userSearched.getId())) {
+                friends.add(userSearched);
             } else {
-                others.add(buddy);
+                others.add(userSearched);
             }
         }
 
