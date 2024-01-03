@@ -1,19 +1,22 @@
 package com.scuti.game.users.messenger;
 
+import com.scuti.game.users.messenger.requests.Request;
+import com.scuti.game.users.messenger.users.Buddy;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Messenger {
     private List<Buddy> buddies;
-    private List<Integer> requests;
+    private List<Request> receivedRequests;
 
     public Messenger() {
         this.buddies = new ArrayList<>();
-        this.requests = new ArrayList<>();
+        this.receivedRequests = new ArrayList<>();
     }
 
-    public List<Integer> getRequests() {
-        return requests;
+    public List<Request> getReceivedRequests() {
+        return receivedRequests;
     }
 
     public List<Buddy> getBuddies() {
@@ -21,7 +24,11 @@ public class Messenger {
     }
 
     public void addBuddy(Buddy buddy) {
-        this.buddies.add(buddy);
+        this.getBuddies().add(buddy);
+    }
+
+    public void addRequest(Request request) {
+        this.getReceivedRequests().add(request);
     }
 
     public boolean isBuddy(int userId) {
@@ -33,7 +40,8 @@ public class Messenger {
         return false;
     }
 
-    public void deleteBuddy(Buddy buddy) {
-        this.buddies.remove(buddy);
+    public void dispose() {
+        this.buddies.clear();
+        this.receivedRequests.clear();
     }
 }

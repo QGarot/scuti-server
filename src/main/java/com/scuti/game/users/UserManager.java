@@ -4,6 +4,7 @@ import io.netty.channel.Channel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UserManager {
     private static UserManager instance;
@@ -50,6 +51,15 @@ public class UserManager {
     public User getUserById(int id) {
         for (User user: this.users) {
             if (user.getDetails().getId() == id) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public User getUserByUsername(String username) {
+        for (User user: this.users) {
+            if (Objects.equals(user.getDetails().getUsername(), username)) {
                 return user;
             }
         }

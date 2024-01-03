@@ -8,8 +8,8 @@ import com.scuti.util.logger.Logger;
 
 public class User {
     private final NettyPlayerNetwork network;
-    private final UserDetails details;
-    private final Messenger messenger;
+    private UserDetails details;
+    private Messenger messenger;
     public User(NettyPlayerNetwork network) {
         this.network = network;
 
@@ -41,6 +41,14 @@ public class User {
         } catch (Exception e) {
             Logger.logError(e.getMessage());
         }
+    }
+
+    public void dispose() {
+        this.details = null;
+
+        this.getMessenger().dispose();
+        this.messenger = null;
+
     }
 
     public void disconnect() {

@@ -1,6 +1,6 @@
-package com.scuti.game.users.messenger;
+package com.scuti.game.users.messenger.users;
 
-public class Buddy extends Avatar {
+public class Buddy extends ConsoleAvatar {
     private int categoryId;
     private String facebookId;
 

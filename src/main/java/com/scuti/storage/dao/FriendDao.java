@@ -1,18 +1,40 @@
 package com.scuti.storage.dao;
 
 import com.scuti.game.users.User;
-import com.scuti.game.users.messenger.Buddy;
-import com.scuti.game.users.messenger.UserSearched;
+import com.scuti.game.users.messenger.users.Buddy;
+import com.scuti.game.users.messenger.requests.Request;
+import com.scuti.game.users.messenger.users.UserSearched;
 import com.scuti.storage.Database;
 import com.scuti.util.logger.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FriendDao {
-    public static List<UserSearched> getUsersByUsername(String username) {
+    public static void insertRequestBuddyAndFillId(Request request) {
+        String sql = "INSERT buddies (user1_id, user2_id, request, category_id, following_allowed)" +
+                "VALUES (?, ?, ?, ?, ?) ;";
+        try (PreparedStatement preparedStatement = Database.getInstance().getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setInt(1, request.getFromUserId());
+            preparedStatement.setInt(2, request.getToUserId());
+            preparedStatement.setInt(3, 1);
+            preparedStatement.setInt(4, 0);
+            preparedStatement.setInt(5, 1);
+
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                request.setId(resultSet.getInt(1));
+            }
+        } catch (Exception e) {
+            Logger.logError(e.getMessage());
+        }
+    }
+
+    public static List<UserSearched> searchUserByUsername(String username) {
         ArrayList<UserSearched> usersSearched = new ArrayList<>();
         String sql = "SELECT id, username, gender, look, motto, online " +
                 "FROM users " +

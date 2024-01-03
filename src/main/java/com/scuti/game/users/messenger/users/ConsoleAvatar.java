@@ -1,6 +1,6 @@
-package com.scuti.game.users.messenger;
+package com.scuti.game.users.messenger.users;
 
-public class Avatar {
+public class ConsoleAvatar {
     private int id;
     private String username;
     private int gender;
@@ -10,7 +10,7 @@ public class Avatar {
     private String motto;
     private String lastLogin;
 
-    public Avatar(int id, String username, int gender, boolean online, boolean followingAllowed, String figure, String motto, String lastLogin) {
+    public ConsoleAvatar(int id, String username, int gender, boolean online, boolean followingAllowed, String figure, String motto, String lastLogin) {
         this.id = id;
         this.username = username;
         this.gender = gender;
