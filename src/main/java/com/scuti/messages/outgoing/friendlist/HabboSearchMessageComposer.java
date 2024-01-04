@@ -27,9 +27,13 @@ public class HabboSearchMessageComposer extends MessageComposer {
         this.getResponse().appendStringWithBreak(user.getUsername()); // name
         this.getResponse().appendStringWithBreak(user.getMotto()); // motto
         this.getResponse().appendBoolean(user.isOnline()); // online
-        this.getResponse().appendBoolean(user.isFollowingAllowed()); // following allowed
+        if (user.isOnline()) {
+            this.getResponse().appendBoolean(user.isFollowingAllowed()); // following allowed
+        } else {
+            this.getResponse().appendBoolean(false);
+        }
         this.getResponse().appendStringWithBreak(""); // ?
-        this.getResponse().appendInt32(user.getGender()); // gender
+        this.getResponse().appendInt32(1); // gender
         this.getResponse().appendStringWithBreak(user.getFigure()); // figure
         this.getResponse().appendStringWithBreak(user.getLastLogin()); // last login
         this.getResponse().appendStringWithBreak(""); // real name

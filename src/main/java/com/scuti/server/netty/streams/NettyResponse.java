@@ -33,9 +33,9 @@ public class NettyResponse {
 
     public void appendBoolean(boolean bool) {
         if (bool) {
-            this.appendInt32(WireEncoding.POSITIVE);
+            this.appendByte(WireEncoding.POSITIVE);
         } else {
-            this.appendInt32(WireEncoding.NEGATIVE);
+            this.appendByte(WireEncoding.NEGATIVE);
         }
     }
 

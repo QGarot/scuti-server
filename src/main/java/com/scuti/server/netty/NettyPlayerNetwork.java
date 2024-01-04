@@ -30,7 +30,6 @@ public class NettyPlayerNetwork implements PlayerNetwork {
 
     @Override
     public void send(MessageComposer messageComposer) {
-        messageComposer.compose();
         this.channel.writeAndFlush(messageComposer.getResponse().getBytes());
         Logger.logOutgoing(messageComposer.getResponse().getHeader());
     }
