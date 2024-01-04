@@ -19,8 +19,12 @@ public class MessengerInitMessageComposer extends MessageComposer {
         this.getResponse().appendInt32(buddy.getId()); // id
         this.getResponse().appendStringWithBreak(buddy.getUsername()); // name
         this.getResponse().appendInt32(buddy.getGender()); // gender
-        this.getResponse().appendBoolean(!buddy.isOnline()); // online
-        this.getResponse().appendBoolean(buddy.isFollowingAllowed()); // following allowed
+        this.getResponse().appendBoolean(buddy.isOnline()); // online
+        if (buddy.isOnline()) {
+            this.getResponse().appendBoolean(buddy.isFollowingAllowed()); // following allowed
+        } else {
+            this.getResponse().appendBoolean(false);
+        }
         this.getResponse().appendStringWithBreak(buddy.getFigure()); // figure
         this.getResponse().appendInt32(buddy.getCategoryId()); // category id
         this.getResponse().appendStringWithBreak(buddy.getMotto()); // motto
