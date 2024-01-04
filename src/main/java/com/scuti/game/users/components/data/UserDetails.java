@@ -1,4 +1,4 @@
-package com.scuti.game.users.components;
+package com.scuti.game.users.components.data;
 
 public class UserDetails {
     private int id;

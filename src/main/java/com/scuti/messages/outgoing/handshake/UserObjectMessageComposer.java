@@ -1,6 +1,6 @@
 package com.scuti.messages.outgoing.handshake;
 
-import com.scuti.game.users.components.UserDetails;
+import com.scuti.game.users.components.data.UserDetails;
 import com.scuti.messages.outgoing.MessageComposer;
 
 public class UserObjectMessageComposer extends MessageComposer {

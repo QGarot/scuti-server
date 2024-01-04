@@ -1,9 +1,9 @@
 package com.scuti.storage.dao;
 
 import com.scuti.game.users.User;
-import com.scuti.game.users.messenger.users.Buddy;
-import com.scuti.game.users.messenger.requests.Request;
-import com.scuti.game.users.messenger.users.UserSearched;
+import com.scuti.game.users.components.messenger.users.Buddy;
+import com.scuti.game.users.components.messenger.requests.Request;
+import com.scuti.game.users.components.messenger.users.UserSearched;
 import com.scuti.storage.Database;
 import com.scuti.util.logger.Logger;
 

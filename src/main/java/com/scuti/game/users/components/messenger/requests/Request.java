@@ -1,4 +1,4 @@
-package com.scuti.game.users.messenger.requests;
+package com.scuti.game.users.components.messenger.requests;
 
 public class Request {
     private int id;

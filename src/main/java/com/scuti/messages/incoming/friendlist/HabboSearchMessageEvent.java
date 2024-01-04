@@ -1,7 +1,7 @@
 package com.scuti.messages.incoming.friendlist;
 
 import com.scuti.game.users.User;
-import com.scuti.game.users.messenger.users.UserSearched;
+import com.scuti.game.users.components.messenger.users.UserSearched;
 import com.scuti.messages.incoming.MessageEvent;
 import com.scuti.messages.outgoing.friendlist.HabboSearchMessageComposer;
 import com.scuti.server.netty.streams.NettyRequest;

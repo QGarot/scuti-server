@@ -1,4 +1,4 @@
-package com.scuti.game.users.messenger.users;
+package com.scuti.game.users.components.messenger.users;
 
 public class Buddy extends ConsoleAvatar {
     private int categoryId;

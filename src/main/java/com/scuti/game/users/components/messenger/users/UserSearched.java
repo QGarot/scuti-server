@@ -1,6 +1,4 @@
-package com.scuti.game.users.messenger.users;
-
-import com.scuti.game.users.messenger.users.ConsoleAvatar;
+package com.scuti.game.users.components.messenger.users;
 
 public class UserSearched extends ConsoleAvatar {
     public UserSearched(int id, String username, int gender, boolean online, boolean followingAllowed, String figure, String motto, String lastLogin) {

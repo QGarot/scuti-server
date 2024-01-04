@@ -1,7 +1,7 @@
-package com.scuti.game.users.messenger;
+package com.scuti.game.users.components.messenger;
 
-import com.scuti.game.users.messenger.requests.Request;
-import com.scuti.game.users.messenger.users.Buddy;
+import com.scuti.game.users.components.messenger.requests.Request;
+import com.scuti.game.users.components.messenger.users.Buddy;
 
 import java.util.ArrayList;
 import java.util.List;

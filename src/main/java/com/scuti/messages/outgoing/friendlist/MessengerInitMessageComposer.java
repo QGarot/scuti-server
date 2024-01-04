@@ -1,7 +1,7 @@
 package com.scuti.messages.outgoing.friendlist;
 
-import com.scuti.game.users.messenger.Messenger;
-import com.scuti.game.users.messenger.users.Buddy;
+import com.scuti.game.users.components.messenger.Messenger;
+import com.scuti.game.users.components.messenger.users.Buddy;
 import com.scuti.messages.outgoing.MessageComposer;
 
 public class MessengerInitMessageComposer extends MessageComposer {
