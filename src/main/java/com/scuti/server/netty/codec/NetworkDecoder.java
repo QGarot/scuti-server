@@ -19,7 +19,7 @@ public class NetworkDecoder extends ByteToMessageDecoder {
 
         buffer.markReaderIndex();
 
-        if (buffer.readableBytes() < 6) {
+        if (buffer.readableBytes() < 5) {
             return;
         }
 
@@ -27,13 +27,12 @@ public class NetworkDecoder extends ByteToMessageDecoder {
         buffer.resetReaderIndex();
 
         if (delimiter == 60) {
-            String policy = "<?xml version=\"1.0\"?>\r\n"
-                    + "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\r\n"
-                    + "<cross-domain-policy>\r\n"
-                    + "<allow-access-from domain=\"*\" to-ports=\"*\" />\r\n"
-                    + "</cross-domain-policy>\0)";
+            String policy = "<?xml version=\"1.0\"?>" +
+                    "<cross-domain-policy>" +
+                    "<allow-access-from domain=\"*\" to-ports=\"*\" />" +
+                    "</cross-domain-policy>\0";
 
-            ChannelFuture future = ctx.channel().writeAndFlush(Unpooled.copiedBuffer(policy.getBytes()));
+            ChannelFuture future = ctx.channel().writeAndFlush(policy.getBytes());
             future.addListener(ChannelFutureListener.CLOSE);
             Logger.logInfo("Policy sent");
         } else {
