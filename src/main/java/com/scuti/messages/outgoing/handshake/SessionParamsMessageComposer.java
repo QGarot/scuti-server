@@ -10,6 +10,6 @@ public class SessionParamsMessageComposer extends MessageComposer {
 
     @Override
     public void compose() {
-        this.getResponse().appendBoolean(true);
+        this.getResponse().appendInt32(0);
     }
 }
