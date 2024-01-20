@@ -11,19 +11,12 @@ public class Database {
     private String username;
     private String password;
     private String name;
-    private Connection connection;
 
     public Database(String host, String username, String password, String name) {
         this.host = host;
         this.username = username;
         this.password = password;
         this.name = name;
-        try {
-            DriverManager.registerDriver(new Driver());
-            this.connection = DriverManager.getConnection("jdbc:mysql://" + this.host + "/" + this.name + "?user=" + this.username + "&password=" + this.password);
-        } catch (Exception e) {
-            Logger.logError(e.getMessage());
-        }
     }
 
     public static Database getInstance() {
@@ -45,12 +38,11 @@ public class Database {
         }
     }
 
-    public Connection getConnection() {
-        return this.connection;
-    }
-
-    public void closeConnection() throws SQLException {
-        this.getConnection().close();
+    public Connection getConnection() throws SQLException {
+        DriverManager.registerDriver(new Driver());
+        Connection connection;
+        connection = DriverManager.getConnection("jdbc:mysql://" + this.getHost() + "/" + this.getName() + "?user=" + this.getUsername() + "&password=" + this.getPassword());
+        return connection;
     }
 
     public String getHost() {

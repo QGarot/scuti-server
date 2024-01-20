@@ -5,17 +5,27 @@ import com.scuti.game.navigator.RoomNavigator;
 import com.scuti.storage.Database;
 import com.scuti.util.logger.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NavigatorDao {
     public static List<PublicRoomEntry> getPublicRooms() {
+        Connection connection;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+
         String sql = "SELECT * FROM navigator_publics";
         ArrayList<PublicRoomEntry> publicRooms= new ArrayList<>();
-        try (PreparedStatement preparedStatement = Database.getInstance().getConnection().prepareStatement(sql)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
+
+        try {
+            connection = Database.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+
             while (resultSet.next()) {
                 publicRooms.add(new PublicRoomEntry(
                         resultSet.getInt("id"),
@@ -27,7 +37,11 @@ public class NavigatorDao {
                         resultSet.getInt("roomid")
                 ));
             }
-        } catch (Exception e) {
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
             Logger.logError(e.getMessage());
         }
 
@@ -35,12 +49,19 @@ public class NavigatorDao {
     }
 
     public static List<RoomNavigator> getRoomsByOwnerUsername(String username) {
+        Connection connection;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+
         String sql = "SELECT * FROM rooms WHERE owner = ?";
         ArrayList<RoomNavigator> rooms = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = Database.getInstance().getConnection().prepareStatement(sql)) {
+        try {
+            connection = Database.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, username);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
+
             while (resultSet.next()) {
                 rooms.add(new RoomNavigator(
                         resultSet.getInt("id"),
@@ -64,7 +85,11 @@ public class NavigatorDao {
                         false
                 ));
             }
-        } catch (Exception e) {
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
             Logger.logError(e.getMessage());
         }
 
