@@ -21,7 +21,11 @@ public class RoomDetails {
     private String floor;
     private String landscape;
 
-    public RoomDetails(int id, String type, String caption, String ownerName, String description, int category, String state, int usersNow, int usersMax, String modelName, int score, String tags, int iconBackground, int iconForeground, String iconItems, String password, String wallpaper, String floor, String landscape) {
+    public RoomDetails() {
+
+    }
+
+    public void fill(int id, String type, String caption, String ownerName, String description, int category, String state, int usersNow, int usersMax, String modelName, int score, String tags, int iconBackground, int iconForeground, String iconItems, String password, String wallpaper, String floor, String landscape) {
         this.id = id;
         this.type = type;
         this.caption = caption;

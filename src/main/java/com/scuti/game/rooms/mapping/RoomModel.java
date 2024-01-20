@@ -1,4 +1,4 @@
-package com.scuti.game.rooms.components.mapping;
+package com.scuti.game.rooms.mapping;
 
 public class RoomModel {
     private String name;
