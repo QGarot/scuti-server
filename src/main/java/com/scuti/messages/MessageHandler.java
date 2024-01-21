@@ -9,6 +9,7 @@ import com.scuti.messages.incoming.handshake.InfoRetrieveMessageComposer;
 import com.scuti.messages.incoming.handshake.InitCryptoMessageEvent;
 import com.scuti.messages.incoming.handshake.SSOTicketMessageEvent;
 import com.scuti.messages.incoming.inventory.purse.GetCreditsInfoMessageEvent;
+import com.scuti.messages.incoming.navigator.CanCreateRoomMessageEvent;
 import com.scuti.messages.incoming.navigator.GetOfficialRoomsMessageEvent;
 import com.scuti.messages.incoming.navigator.MyRoomsSearchMessageEvent;
 import com.scuti.messages.incoming.navigator.PopularRoomsSearchMessageEvent;
@@ -37,6 +38,7 @@ public class MessageHandler {
         this.packets.put(430, new PopularRoomsSearchMessageEvent());
         this.packets.put(380, new GetOfficialRoomsMessageEvent());
         this.packets.put(434, new MyRoomsSearchMessageEvent());
+        this.packets.put(387, new CanCreateRoomMessageEvent());
     }
 
     private void registerHandshake() {
