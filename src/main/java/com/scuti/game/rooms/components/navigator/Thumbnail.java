@@ -11,8 +11,8 @@ public class Thumbnail {
         // default values
         this.backgroundImageIcon = 1;
         this.foregroundImageIcon = 1;
-        this.itemCount = 0;
-        this.itemPosition = 0;
+        this.itemCount = 1;
+        this.itemPosition = 1;
         this.itemImageId = 1;
     }
 

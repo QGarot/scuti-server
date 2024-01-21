@@ -4,10 +4,7 @@ import com.scuti.game.rooms.Room;
 import com.scuti.storage.Database;
 import com.scuti.util.logger.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
 
 public class RoomDao {
@@ -63,5 +60,36 @@ public class RoomDao {
         }
 
         return rooms;
+    }
+
+    public void insertRoomAndFillId(Room room) {
+        Connection connection;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+
+        String sql = "INSERT rooms (caption, owner, model_name) " +
+                "VALUES (?, ?, ?);";
+
+        try {
+            connection = Database.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            preparedStatement.setString(1, room.getDetails().getCaption());
+            preparedStatement.setString(2, room.getDetails().getOwnerName());
+            preparedStatement.setString(3, room.getDetails().getModelName());
+
+            preparedStatement.execute();
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            if(resultSet.next()) {
+                room.getDetails().setId(resultSet.getInt(1));
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            Logger.logError(e.getMessage());
+        }
     }
 }

@@ -25,7 +25,23 @@ public class RoomDetails {
     private boolean displayRoomEntryAd;
 
     public RoomDetails() {
-
+        // default values
+        this.type = "private";
+        this.description = "";
+        this.category = 1;
+        this.state = "open";
+        this.usersNow = 0;
+        this.usersMax = 25;
+        this.score = 0;
+        this.tags = "";
+        this.password = "";
+        this.wallpaper = "0.0";
+        this.floor = "0.0";
+        this.landscape = "0.0";
+        this.tradingAllowed = true;
+        this.dateCreation = "";
+        this.petsAllowed = true;
+        this.displayRoomEntryAd = true;
     }
 
     public void fill(int id, String type, String caption, String ownerName, String description, int category, String state, int usersNow, int usersMax, String modelName, int score, String tags, String password, String wallpaper, String floor, String landscape, boolean tradingAllowed, boolean petsAllowed, boolean displayRoomEntryAd, String dateCreation) {
