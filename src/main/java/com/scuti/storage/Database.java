@@ -22,6 +22,14 @@ public class Database {
     public static Database getInstance() {
         if (instance == null) {
             instance = new Database("localhost", "root", "", "scuti");
+            Connection connection;
+            try {
+                connection = instance.getConnection();
+                connection.close();
+            } catch (SQLException e) {
+                Logger.logError(e.getMessage());
+                System.exit(0);
+            }
         }
 
         return instance;
