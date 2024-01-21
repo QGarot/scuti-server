@@ -32,7 +32,7 @@ public class GuestRoomSearchResultMessageComposer extends MessageComposer {
             this.getResponse().appendInt32(room.getDetails().getUsersMax());
             this.getResponse().appendStringWithBreak(room.getDetails().getDescription());
             this.getResponse().appendInt32(0);
-            this.getResponse().appendBoolean(true); // is trading allowed
+            this.getResponse().appendBoolean(room.getDetails().isTradingAllowed());
             this.getResponse().appendInt32(room.getDetails().getScore());
             this.getResponse().appendInt32(room.getDetails().getCategory());
             this.getResponse().appendStringWithBreak(room.getDetails().getDateCreation());

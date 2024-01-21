@@ -43,9 +43,9 @@ public class RoomDao {
                         resultSet.getString("wallpaper"),
                         resultSet.getString("floor"),
                         resultSet.getString("landscape"),
-                        true,
-                        true,
-                        true,
+                        resultSet.getBoolean("allow_trading"),
+                        resultSet.getBoolean("allow_pets"),
+                        resultSet.getBoolean("visible"),
                         "05/09/2010"
                 );
 
