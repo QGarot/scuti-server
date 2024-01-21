@@ -1,5 +1,7 @@
 package com.scuti.game.rooms.components.data;
 
+import java.util.Objects;
+
 public class RoomDetails {
     private int id;
     private String type;
@@ -13,19 +15,20 @@ public class RoomDetails {
     private String modelName;
     private int score;
     private String tags;
-    private int iconBackground;
-    private int iconForeground;
-    private String iconItems;
     private String password;
     private String wallpaper;
     private String floor;
     private String landscape;
+    private boolean tradingAllowed;
+    private String dateCreation;
+    private boolean petsAllowed;
+    private boolean displayRoomEntryAd;
 
     public RoomDetails() {
 
     }
 
-    public void fill(int id, String type, String caption, String ownerName, String description, int category, String state, int usersNow, int usersMax, String modelName, int score, String tags, int iconBackground, int iconForeground, String iconItems, String password, String wallpaper, String floor, String landscape) {
+    public void fill(int id, String type, String caption, String ownerName, String description, int category, String state, int usersNow, int usersMax, String modelName, int score, String tags, String password, String wallpaper, String floor, String landscape, boolean tradingAllowed, boolean petsAllowed, boolean displayRoomEntryAd, String dateCreation) {
         this.id = id;
         this.type = type;
         this.caption = caption;
@@ -38,13 +41,14 @@ public class RoomDetails {
         this.modelName = modelName;
         this.score = score;
         this.tags = tags;
-        this.iconBackground = iconBackground;
-        this.iconForeground = iconForeground;
-        this.iconItems = iconItems;
         this.password = password;
         this.wallpaper = wallpaper;
         this.floor = floor;
         this.landscape = landscape;
+        this.tradingAllowed = tradingAllowed;
+        this.dateCreation = dateCreation;
+        this.petsAllowed = petsAllowed;
+        this.displayRoomEntryAd = displayRoomEntryAd;
     }
 
     public int getId() {
@@ -95,8 +99,16 @@ public class RoomDetails {
         this.category = category;
     }
 
-    public String getState() {
-        return state;
+    public int getState() {
+        if (Objects.equals(this.state, "open")) {
+            return 0;
+        } else if (Objects.equals(this.state, "locked")) {
+            return 1;
+        } else if (Objects.equals(this.state, "password")) {
+            return 2;
+        } else {
+            return 0;
+        }
     }
 
     public void setState(String state) {
@@ -143,30 +155,6 @@ public class RoomDetails {
         this.tags = tags;
     }
 
-    public int getIconBackground() {
-        return iconBackground;
-    }
-
-    public void setIconBackground(int iconBackground) {
-        this.iconBackground = iconBackground;
-    }
-
-    public int getIconForeground() {
-        return iconForeground;
-    }
-
-    public void setIconForeground(int iconForeground) {
-        this.iconForeground = iconForeground;
-    }
-
-    public String getIconItems() {
-        return iconItems;
-    }
-
-    public void setIconItems(String iconItems) {
-        this.iconItems = iconItems;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -197,5 +185,37 @@ public class RoomDetails {
 
     public void setLandscape(String landscape) {
         this.landscape = landscape;
+    }
+
+    public boolean isTradingAllowed() {
+        return tradingAllowed;
+    }
+
+    public void setTradingAllowed(boolean tradingAllowed) {
+        this.tradingAllowed = tradingAllowed;
+    }
+
+    public String getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(String dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    public boolean arePetsAllowed() {
+        return petsAllowed;
+    }
+
+    public void setPetsAllowed(boolean petsAllowed) {
+        this.petsAllowed = petsAllowed;
+    }
+
+    public boolean isDisplayRoomEntryAd() {
+        return displayRoomEntryAd;
+    }
+
+    public void setDisplayRoomEntryAd(boolean displayRoomEntryAd) {
+        this.displayRoomEntryAd = displayRoomEntryAd;
     }
 }

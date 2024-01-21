@@ -1,5 +1,6 @@
 package com.scuti;
 
+import com.scuti.game.rooms.RoomManager;
 import com.scuti.server.netty.NettyServer;
 import com.scuti.storage.Database;
 
@@ -20,5 +21,6 @@ public class Main {
 
     public static void initialize() {
         Database.getInstance();
+        RoomManager.getInstance();
     }
 }

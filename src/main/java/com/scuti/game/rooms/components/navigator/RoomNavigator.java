@@ -1,4 +1,4 @@
-package com.scuti.game.navigator;
+package com.scuti.game.rooms.components.navigator;
 
 public class RoomNavigator {
     private int id;

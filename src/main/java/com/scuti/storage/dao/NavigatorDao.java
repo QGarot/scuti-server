@@ -1,7 +1,7 @@
 package com.scuti.storage.dao;
 
 import com.scuti.game.navigator.PublicRoomEntry;
-import com.scuti.game.navigator.RoomNavigator;
+import com.scuti.game.rooms.components.navigator.RoomNavigator;
 import com.scuti.storage.Database;
 import com.scuti.util.logger.Logger;
 
