@@ -1,7 +1,7 @@
 package com.scuti.game.rooms;
 
 import com.scuti.game.rooms.components.data.RoomDetails;
-import com.scuti.game.rooms.components.navigator.Thumbnail;
+import com.scuti.game.navigator.components.Thumbnail;
 
 public class Room {
     private final RoomDetails details;

@@ -1,6 +1,6 @@
 package com.scuti.messages.outgoing.navigator;
 
-import com.scuti.game.navigator.PublicRoomEntry;
+import com.scuti.game.navigator.components.PublicRoomEntry;
 import com.scuti.messages.outgoing.MessageComposer;
 
 import java.util.List;

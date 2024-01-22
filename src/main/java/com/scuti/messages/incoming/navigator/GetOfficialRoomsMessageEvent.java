@@ -1,6 +1,6 @@
 package com.scuti.messages.incoming.navigator;
 
-import com.scuti.game.navigator.PublicRoomEntry;
+import com.scuti.game.navigator.components.PublicRoomEntry;
 import com.scuti.game.users.User;
 import com.scuti.messages.incoming.MessageEvent;
 import com.scuti.messages.outgoing.navigator.OfficialRoomsMessageComposer;

@@ -1,4 +1,4 @@
-package com.scuti.game.rooms.components.navigator;
+package com.scuti.game.navigator.components;
 
 public class Thumbnail {
     private int backgroundImageIcon;

@@ -1,4 +1,4 @@
-package com.scuti.game.navigator;
+package com.scuti.game.navigator.components;
 
 public class PublicRoomEntry {
     // TODO: define and use RoomDetails object

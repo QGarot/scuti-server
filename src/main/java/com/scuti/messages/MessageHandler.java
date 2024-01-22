@@ -10,6 +10,9 @@ import com.scuti.messages.incoming.handshake.InitCryptoMessageEvent;
 import com.scuti.messages.incoming.handshake.SSOTicketMessageEvent;
 import com.scuti.messages.incoming.inventory.purse.GetCreditsInfoMessageEvent;
 import com.scuti.messages.incoming.navigator.*;
+import com.scuti.messages.incoming.rooms.engine.GetFurnitureAliasesMessageEvent;
+import com.scuti.messages.incoming.rooms.engine.GetRoomEntryDataMessageEvent;
+import com.scuti.messages.incoming.rooms.session.OpenFlatConnectionMessageEvent;
 import com.scuti.messages.incoming.tracking.EventLogMessageEvent;
 import com.scuti.server.netty.streams.NettyRequest;
 import com.scuti.game.users.User;
@@ -29,6 +32,13 @@ public class MessageHandler {
         this.registerNavigator();
         this.registerInventory();
         this.registerFriendList();
+        this.registerRooms();
+    }
+
+    private void registerRooms() {
+        this.packets.put(391, new OpenFlatConnectionMessageEvent());
+        this.packets.put(215, new GetFurnitureAliasesMessageEvent());
+        this.packets.put(390, new GetRoomEntryDataMessageEvent());
     }
 
     private void registerNavigator() {
