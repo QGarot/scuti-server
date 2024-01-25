@@ -14,15 +14,12 @@ public class GetRoomEntryDataMessageEvent extends MessageEvent {
     public void handle(User user, NettyRequest clientMessage) {
         Room room = RoomManager.getInstance().getRoomsLoaded().get(user.getRoomId());
         RoomModel model = RoomModelManager.getInstance().getModels().get(room.getDetails().getModelName());
-
-        System.out.println("name" + model.getName());
-        System.out.println(model.getHeightmap());
         // TODO: send
         // - HeightMapMsgComposer
         user.send(new HeightMapMessageComposer(model.getHeightmap()));
         // - FloorHeightmapMsgComposer
         user.send(new FloorHeightMapMessageComposer(model));
-        // 3105 (GetUserNotifications, GetRoomAd)
+        // 3105, 126 (GetUserNotifications, GetRoomAd)
         // - UsersMsgComposer
         user.send(new UsersMessageComposer(user.getDetails()));
         // Check rights (RoomEntryInfoMsgComposer & RoomVisualizationSettingsComposer)

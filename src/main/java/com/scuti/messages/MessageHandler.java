@@ -10,6 +10,7 @@ import com.scuti.messages.incoming.handshake.InitCryptoMessageEvent;
 import com.scuti.messages.incoming.handshake.SSOTicketMessageEvent;
 import com.scuti.messages.incoming.inventory.purse.GetCreditsInfoMessageEvent;
 import com.scuti.messages.incoming.navigator.*;
+import com.scuti.messages.incoming.register.UpdateFigureDataMessageEvent;
 import com.scuti.messages.incoming.rooms.engine.GetFurnitureAliasesMessageEvent;
 import com.scuti.messages.incoming.rooms.engine.GetRoomEntryDataMessageEvent;
 import com.scuti.messages.incoming.rooms.session.OpenFlatConnectionMessageEvent;
@@ -33,6 +34,11 @@ public class MessageHandler {
         this.registerInventory();
         this.registerFriendList();
         this.registerRooms();
+        this.registerRegister();
+    }
+
+    private void registerRegister() {
+        this.packets.put(44, new UpdateFigureDataMessageEvent());
     }
 
     private void registerRooms() {
