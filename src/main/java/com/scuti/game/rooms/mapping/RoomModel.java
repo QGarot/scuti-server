@@ -19,10 +19,50 @@ public class RoomModel {
         this.doorY = doorY;
         this.doorZ = doorZ;
         this.doorRotation = doorRotation;
-        this.heightmap = heightmap;
+        this.heightmap = heightmap.toLowerCase();
         this.clubOnly = clubOnly;
 
         this.parse();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDoorX(int doorX) {
+        this.doorX = doorX;
+    }
+
+    public void setDoorY(int doorY) {
+        this.doorY = doorY;
+    }
+
+    public void setDoorZ(int doorZ) {
+        this.doorZ = doorZ;
+    }
+
+    public void setDoorRotation(int doorRotation) {
+        this.doorRotation = doorRotation;
+    }
+
+    public void setClubOnly(boolean clubOnly) {
+        this.clubOnly = clubOnly;
+    }
+
+    public void setMapSizeX(int mapSizeX) {
+        this.mapSizeX = mapSizeX;
+    }
+
+    public void setMapSizeY(int mapSizeY) {
+        this.mapSizeY = mapSizeY;
+    }
+
+    public void setTileStates(int[][] tileStates) {
+        this.tileStates = tileStates;
+    }
+
+    public void setTileHeights(int[][] tileHeights) {
+        this.tileHeights = tileHeights;
     }
 
     public String getName() {
@@ -47,6 +87,10 @@ public class RoomModel {
 
     public String getHeightmap() {
         return heightmap;
+    }
+
+    public void setHeightmap(String newHeightMap) {
+        this.heightmap = newHeightMap;
     }
 
     public boolean isClubOnly() {
@@ -83,18 +127,16 @@ public class RoomModel {
 
     public void parse() {
         String[] lines = this.getHeightmap().split("\r\n");
-        this.mapSizeY = lines.length;
-        this.mapSizeX = lines[0].length();
-        this.tileStates = this.generate_array(mapSizeX, mapSizeY);
-        this.tileHeights = this.generate_array(mapSizeX, mapSizeY);
-        String temporaryHeightmap = "";
-        String line;
-        Character tile;
+        this.setMapSizeY(lines.length);
+        this.setMapSizeX(lines[0].length());
+        this.setTileStates(this.generate_array(this.getMapSizeX(), this.getMapSizeY()));
+        this.setTileHeights(this.generate_array(this.getMapSizeX(), this.getMapSizeY()));
+        StringBuilder temporaryHeightmap = new StringBuilder();
 
         for (int y = 0; y < this.getMapSizeY(); y++) {
-            line = lines[y];
+            String line = lines[y];
             for (int x = 0; x < this.getMapSizeX(); x++) {
-                tile = line.charAt(x);
+                Character tile = line.charAt(x);
 
                 try {
                     this.tileHeights[y][x] = Integer.parseInt(String.valueOf(tile));
@@ -105,14 +147,17 @@ public class RoomModel {
                 }
 
                 if (x == this.getDoorX() && y == this.getDoorY()) {
-                    tileStates[y][x] = 1;
-                    tileHeights[y][x] = this.getDoorZ();
+                    this.tileStates[y][x] = 1;
+                    this.tileHeights[y][x] = this.getDoorZ();
                 }
 
-                temporaryHeightmap = temporaryHeightmap.concat(String.valueOf(tile));
+                temporaryHeightmap.append(tile);
             }
-            temporaryHeightmap = temporaryHeightmap.concat("\r");
+
+            temporaryHeightmap.append("\r");
         }
-        this.heightmap = temporaryHeightmap;
+
+        String newHeightMap = temporaryHeightmap.toString();
+        this.setHeightmap(newHeightMap);
     }
 }

@@ -26,9 +26,9 @@ public class UsersMessageComposer extends MessageComposer {
         this.getResponse().appendInt32(1);
 
         // TODO: work with UserEntity
-        this.getResponse().appendInt32(1); // pos x
-        this.getResponse().appendInt32(1); // pos y
-        this.getResponse().appendStringWithBreak(String.valueOf(5)); // pos z
+        this.getResponse().appendInt32(3); // pos x
+        this.getResponse().appendInt32(5); // pos y
+        this.getResponse().appendStringWithBreak(String.valueOf(0)); // pos z
 
         this.getResponse().appendInt32(2);
         this.getResponse().appendInt32(1);

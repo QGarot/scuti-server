@@ -15,6 +15,7 @@ public class User {
     private UserDetails details;
     private Messenger messenger;
     private final List<Room> rooms;
+    private int roomId;
 
     public User(NettyPlayerNetwork network) {
         this.network = network;
@@ -25,6 +26,14 @@ public class User {
 
         // Rooms
         this.rooms = new ArrayList<>();
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+
+    public int getRoomId() {
+        return roomId;
     }
 
     public void login() {

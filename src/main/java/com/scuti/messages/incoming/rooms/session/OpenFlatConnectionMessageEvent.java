@@ -15,14 +15,13 @@ public class OpenFlatConnectionMessageEvent extends MessageEvent {
         int roomId = clientMessage.popWiredInt32();
         Room room = RoomManager.getInstance().getRoomsLoaded().get(roomId);
 
+        user.setRoomId(roomId);
+
         // TODO: prepare room for user
         user.send(new OpenConnectionMessageComposer(roomId, room.getDetails().getCategory()));
-        System.out.println("OpenConnectionMessageComposer");
 
         user.send(new RoomPropertyMessageComposer("landscape", "0.0"));
-        System.out.println("RoomPropertyMessageComposer");
 
         user.send(new RoomReadyMessageComposer(roomId, room.getDetails().getModelName()));
-        System.out.println("RoomReadyMessageComposer");
     }
 }
