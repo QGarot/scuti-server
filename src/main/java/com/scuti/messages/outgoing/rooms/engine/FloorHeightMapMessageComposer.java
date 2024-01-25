@@ -3,6 +3,8 @@ package com.scuti.messages.outgoing.rooms.engine;
 import com.scuti.game.rooms.mapping.RoomModel;
 import com.scuti.messages.outgoing.MessageComposer;
 
+import java.util.Arrays;
+
 public class FloorHeightMapMessageComposer extends MessageComposer {
     private final RoomModel model;
 
@@ -28,6 +30,7 @@ public class FloorHeightMapMessageComposer extends MessageComposer {
                     this.getResponse().appendString(String.valueOf(tile));
                 }
             }
+            this.getResponse().appendString("\r");
         }
     }
 }
