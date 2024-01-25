@@ -1,17 +1,31 @@
 package com.scuti.game.users;
 
+import com.scuti.api.utils.IManager;
+import com.scuti.storage.dao.UserDao;
 import io.netty.channel.Channel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class UserManager {
+public class UserManager implements IManager {
     private static UserManager instance;
     private List<User> users;
+    private UserDao userDao;
 
     private UserManager() {
-        this.users = new ArrayList<User>();
+        this.initialize();
+    }
+
+
+    @Override
+    public void initialize() {
+        this.userDao = new UserDao();
+        this.users = new ArrayList<>();
+    }
+
+    public UserDao getUserDao() {
+        return this.userDao;
     }
 
     public static UserManager getInstance() {

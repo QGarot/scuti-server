@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDao {
-    public static void saveDetails(User user) {
+    public void saveDetails(User user) {
         Connection connection;
         PreparedStatement preparedStatement;
 
@@ -39,7 +39,7 @@ public class UserDao {
         }
     }
 
-    public static boolean loginSSO(User user, String ticket) {
+    public boolean loginSSO(User user, String ticket) {
         Connection connection;
         PreparedStatement preparedStatement;
         ResultSet resultSet;
