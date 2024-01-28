@@ -25,6 +25,10 @@ public class GetRoomEntryDataMessageEvent extends MessageEvent {
         RoomUser roomUser = new RoomUser(user.getDetails().getId(), x, y, z, rotation);
         room.getEntityManager().addRoomUser(roomUser);
 
+        System.out.println(user.getDetails().getUsername() + " goes into " + room.getDetails().getCaption());
+        System.out.println("- Entities : " + room.getEntityManager().getRoomUsers());
+        System.out.println(" - virtualid : " + roomUser.getVirtualId());
+
         // - HeightMapMsgComposer
         user.send(new HeightMapMessageComposer(model.getHeightmap()));
         // - FloorHeightmapMsgComposer

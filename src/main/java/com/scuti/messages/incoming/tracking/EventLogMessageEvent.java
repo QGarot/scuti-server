@@ -11,8 +11,8 @@ public class EventLogMessageEvent extends MessageEvent {
         String type = clientMessage.popFixedString(); // socket
         String action = clientMessage.popFixedString(); // client.auth_ok
 
-        System.out.println("Category: " + category);
-        System.out.println("Type: " + type);
-        System.out.println("Action: " + action);
+        //System.out.println("Category: " + category);
+        //System.out.println("Type: " + type);
+        //System.out.println("Action: " + action);
     }
 }
