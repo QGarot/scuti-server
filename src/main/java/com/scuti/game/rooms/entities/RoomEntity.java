@@ -10,10 +10,18 @@ public abstract class RoomEntity {
     private int carryId;
     private boolean isSleeping;
 
-    public abstract void dispose();
     public abstract void kick();
     public abstract void walk();
     public abstract void talk();
+
+    public void dispose() {
+        this.setPosition(null);
+        this.setWalking(false);
+        this.setDanceId(0);
+        this.setEffectId(0);
+        this.setCarryId(0);
+        this.setSleeping(false);
+    }
 
     public Position getPosition() {
         return position;
@@ -37,5 +45,29 @@ public abstract class RoomEntity {
 
     public boolean isSleeping() {
         return isSleeping;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public void setWalking(boolean walking) {
+        isWalking = walking;
+    }
+
+    public void setDanceId(int danceId) {
+        this.danceId = danceId;
+    }
+
+    public void setEffectId(int effectId) {
+        this.effectId = effectId;
+    }
+
+    public void setCarryId(int carryId) {
+        this.carryId = carryId;
+    }
+
+    public void setSleeping(boolean sleeping) {
+        isSleeping = sleeping;
     }
 }

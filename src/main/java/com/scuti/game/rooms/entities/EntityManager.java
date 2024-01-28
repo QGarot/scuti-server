@@ -17,13 +17,16 @@ public class EntityManager {
         return this.getRoomUsers().size();
     }
 
+    public boolean isInRoom(int userId) {
+        return this.getRoomUsers().containsKey(userId);
+    }
+
     public RoomUser getRoomUserById(int userId) {
         return this.getRoomUsers().get(userId);
     }
 
     public void disposeRoomUser(int userId) {
-        RoomUser roomUser = this.getRoomUsers().remove(userId);
-        roomUser.dispose();
+        this.getRoomUsers().remove(userId).dispose();
     }
 
     public void addRoomUser(RoomUser roomUser) {

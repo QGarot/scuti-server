@@ -15,7 +15,17 @@ public class OpenFlatConnectionMessageEvent extends MessageEvent {
         int roomId = clientMessage.popWiredInt32();
         Room room = RoomManager.getInstance().getRoomsLoaded().get(roomId);
 
+        int currentRoomId = user.getRoomId();
+        if (currentRoomId != 0) {
+            Room currentRoom = RoomManager.getInstance().getRoomsLoaded().get(currentRoomId);
+            if (currentRoom != null) {
+                currentRoom.getEntityManager().disposeRoomUser(user.getDetails().getId());
+                System.out.println(user.getDetails().getUsername() + " just leaves " + currentRoom.getDetails().getCaption());
+            }
+        }
+
         user.setRoomId(roomId);
+
 
         // TODO: prepare room for user
         user.send(new OpenConnectionMessageComposer(roomId, room.getDetails().getCategory()));

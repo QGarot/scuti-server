@@ -18,7 +18,11 @@ public class RoomUser extends RoomEntity {
 
     @Override
     public void dispose() {
-
+        super.dispose();
+        this.setUserId(0);
+        this.setVirtualId(0);
+        this.setRotationHead(0);
+        this.setRotationBody(0);
     }
 
     @Override
