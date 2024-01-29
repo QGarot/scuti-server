@@ -13,8 +13,8 @@ public class OpenFlatConnectionMessageEvent extends MessageEvent {
     @Override
     public void handle(User user, NettyRequest clientMessage) {
         int roomId = clientMessage.popWiredInt32();
-        Room room = RoomManager.getInstance().getRoomsLoaded().get(roomId);
 
+        // User has to leave the current room
         int currentRoomId = user.getRoomId();
         if (currentRoomId != 0) {
             Room currentRoom = RoomManager.getInstance().getRoomsLoaded().get(currentRoomId);
@@ -24,14 +24,16 @@ public class OpenFlatConnectionMessageEvent extends MessageEvent {
             }
         }
 
-        user.setRoomId(roomId);
+        // Prepare room for user (TODO: link it do database...)
+        Room room = RoomManager.getInstance().getRoomsLoaded().get(roomId);
+        if (room != null) {
+            user.setRoomId(roomId);
+            user.send(new OpenConnectionMessageComposer(roomId, room.getDetails().getCategory()));
+            user.send(new RoomPropertyMessageComposer("wallpaper", "901"));
+            user.send(new RoomPropertyMessageComposer("floor", "401"));
+            user.send(new RoomPropertyMessageComposer("landscape", "5.3"));
 
-
-        // TODO: prepare room for user
-        user.send(new OpenConnectionMessageComposer(roomId, room.getDetails().getCategory()));
-
-        user.send(new RoomPropertyMessageComposer("landscape", "0.0"));
-
-        user.send(new RoomReadyMessageComposer(roomId, room.getDetails().getModelName()));
+            user.send(new RoomReadyMessageComposer(roomId, room.getDetails().getModelName()));
+        }
     }
 }

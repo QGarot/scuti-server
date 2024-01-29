@@ -8,7 +8,7 @@ public class RoomPropertyMessageComposer extends MessageComposer {
 
     public RoomPropertyMessageComposer(String roomPropertyType, String roomProperty) {
         this.getResponse().setHeader(46);
-        this.roomPropertyType = roomPropertyType; // floor, wallpaper, landscape, landscapeAnim
+        this.roomPropertyType = roomPropertyType; // floor, wallpaper, landscape, landscapeanim
         this.roomProperty = roomProperty;
     }
 
