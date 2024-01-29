@@ -1,16 +1,17 @@
 package com.scuti.server.netty.streams;
 
+import com.scuti.api.netty.IRequest;
 import com.scuti.server.encoding.Base64Encoding;
 import com.scuti.server.encoding.WireEncoding;
 
 import java.nio.charset.StandardCharsets;
 
-public class NettyRequest {
+public class NettyRequest implements IRequest {
 
-    private byte[] body;
-    private int messageId;
+    private final byte[] body;
+    private final int messageId;
     private int pointer;
-    private int remainingContent;
+    private final int remainingContent;
 
     public NettyRequest(int messageId, byte[] body) {
         if (body == null) {
@@ -39,6 +40,7 @@ public class NettyRequest {
         return new String(this.body, StandardCharsets.UTF_8);
     }
 
+    @Override
     public byte[] readBytes(int numBytes) {
         if (numBytes > this.remainingContent) {
             numBytes = this.remainingContent;
@@ -50,6 +52,7 @@ public class NettyRequest {
         return bzData;
     }
 
+    @Override
     public byte[] readBytesFreezeCursor(int numBytes) {
         if (numBytes > this.remainingContent) {
             numBytes = this.remainingContent;
@@ -65,32 +68,39 @@ public class NettyRequest {
         return bzData;
     }
 
+    @Override
     public byte[] readFixedValue() {
         int length = Base64Encoding.decodeInt32(this.readBytes(2));
         return this.readBytes(length);
     }
 
+    @Override
     public boolean popBase64Boolean() {
         return (this.remainingContent > 0 && this.body[this.pointer++] == 65);
     }
 
+    @Override
     public int popInt32() {
         return Base64Encoding.decodeInt32(this.readBytes(2));
     }
 
+    @Override
     public String popFixedString() {
         return new String(this.readFixedValue(), StandardCharsets.UTF_8);
     }
 
+    @Override
     public int popFixedInt32() {
         String s = new String(this.readFixedValue(), StandardCharsets.US_ASCII);
         return Integer.parseInt(s);
     }
 
+    @Override
     public boolean popWiredBoolean() {
         return (this.remainingContent > 0 && this.body[this.pointer++] == WireEncoding.POSITIVE);
     }
 
+    @Override
     public int popWiredInt32() {
         if (this.remainingContent == 0) {
             return 0;
