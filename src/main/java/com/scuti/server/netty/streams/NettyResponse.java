@@ -1,12 +1,13 @@
 package com.scuti.server.netty.streams;
 
+import com.scuti.api.netty.IResponse;
 import com.scuti.server.encoding.Base64Encoding;
 import com.scuti.server.encoding.WireEncoding;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class NettyResponse {
+public class NettyResponse implements IResponse {
 
     private int id;
     private final ArrayList<Byte> body = new ArrayList<Byte>();
@@ -19,10 +20,12 @@ public class NettyResponse {
         this.body.clear();
     }
 
+    @Override
     public void appendByte(byte b) {
         this.body.add(b);
     }
 
+    @Override
     public void appendBytes(byte[] data) {
         if (data != null) {
             for (byte datum : data) {
@@ -31,6 +34,7 @@ public class NettyResponse {
         }
     }
 
+    @Override
     public void appendBoolean(boolean bool) {
         if (bool) {
             this.appendByte(WireEncoding.POSITIVE);
@@ -39,16 +43,19 @@ public class NettyResponse {
         }
     }
 
+    @Override
     public void appendInt32(int i) {
         this.appendBytes(WireEncoding.encodeInt32(i));
     }
 
+    @Override
     public void appendString(String s) {
         if (s.length() > 0) {
             this.appendBytes(s.getBytes(StandardCharsets.UTF_8));
         }
     }
 
+    @Override
     public void appendStringWithBreak(String s) {
         this.appendString(s);
         this.appendByte((byte) 2);
@@ -70,6 +77,7 @@ public class NettyResponse {
         return this.id;
     }
 
+    @Override
     public void setHeader(int header) {
         this.id = header;
     }
