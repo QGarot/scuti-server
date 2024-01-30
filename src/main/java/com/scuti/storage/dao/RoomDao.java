@@ -1,6 +1,7 @@
 package com.scuti.storage.dao;
 
 import com.scuti.game.rooms.Room;
+import com.scuti.game.rooms.components.data.RoomDetails;
 import com.scuti.storage.Database;
 import com.scuti.util.logger.Logger;
 
@@ -60,6 +61,41 @@ public class RoomDao {
         }
 
         return rooms;
+    }
+
+    public void saveRoomDetails(RoomDetails roomDetails) {
+        Connection connection;
+        PreparedStatement preparedStatement;
+
+        String sql = "UPDATE rooms SET roomtype = ?, caption = ?, description = ?, category = ?, state = ?, users_now = ?, users_max = ?, model_name = ?, score = ?, tags = ?, password = ?, wallpaper = ?, floor = ?, landscape = ?, allow_trading = ?, allow_pets = ? WHERE id = ?";
+
+        try {
+            connection = Database.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, roomDetails.getType());
+            preparedStatement.setString(2, roomDetails.getCaption());
+            preparedStatement.setString(3, roomDetails.getDescription());
+            preparedStatement.setInt(4, roomDetails.getCategory());
+            preparedStatement.setString(5, roomDetails.getState() == 0 ? "open" : (roomDetails.getState() == 1 ? "locked" : "password"));
+            preparedStatement.setInt(6, roomDetails.getUsersNow());
+            preparedStatement.setInt(7, roomDetails.getUsersMax());
+            preparedStatement.setString(8, roomDetails.getModelName());
+            preparedStatement.setInt(9, roomDetails.getScore());
+            preparedStatement.setString(10, roomDetails.getTags());
+            preparedStatement.setString(11, roomDetails.getPassword());
+            preparedStatement.setString(12, roomDetails.getWallpaper());
+            preparedStatement.setString(13, roomDetails.getFloor());
+            preparedStatement.setString(14, roomDetails.getLandscape());
+            preparedStatement.setBoolean(15, roomDetails.isTradingAllowed());
+            preparedStatement.setBoolean(16, roomDetails.arePetsAllowed());
+            preparedStatement.setInt(17, roomDetails.getId());
+            preparedStatement.execute();
+
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            Logger.logError(e.getMessage());
+        }
     }
 
     public void insertRoomAndFillId(Room room) {

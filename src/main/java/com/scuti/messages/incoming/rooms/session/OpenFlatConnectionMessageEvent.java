@@ -20,7 +20,9 @@ public class OpenFlatConnectionMessageEvent extends MessageEvent {
             Room currentRoom = RoomManager.getInstance().getRoomsLoaded().get(currentRoomId);
             if (currentRoom != null) {
                 currentRoom.getEntityManager().disposeRoomUser(user.getDetails().getId());
+                currentRoom.getDetails().setUsersNow(currentRoom.getDetails().getUsersNow() - 1);
                 System.out.println(user.getDetails().getUsername() + " just leaves " + currentRoom.getDetails().getCaption());
+                RoomManager.getInstance().getRoomDao().saveRoomDetails(currentRoom.getDetails());
             }
         }
 
@@ -28,12 +30,13 @@ public class OpenFlatConnectionMessageEvent extends MessageEvent {
         Room room = RoomManager.getInstance().getRoomsLoaded().get(roomId);
         if (room != null) {
             user.setRoomId(roomId);
+            room.getDetails().setUsersNow(room.getDetails().getUsersNow() + 1);
             user.send(new OpenConnectionMessageComposer(roomId, room.getDetails().getCategory()));
             user.send(new RoomPropertyMessageComposer("wallpaper", "901"));
             user.send(new RoomPropertyMessageComposer("floor", "401"));
             user.send(new RoomPropertyMessageComposer("landscape", "5.3"));
-
             user.send(new RoomReadyMessageComposer(roomId, room.getDetails().getModelName()));
+            RoomManager.getInstance().getRoomDao().saveRoomDetails(room.getDetails());
         }
     }
 }
