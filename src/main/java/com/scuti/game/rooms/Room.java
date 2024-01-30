@@ -5,14 +5,25 @@ import com.scuti.game.navigator.components.Thumbnail;
 import com.scuti.game.rooms.entities.EntityManager;
 
 public class Room {
-    private final RoomDetails details;
-    private final Thumbnail thumbnail;
-    private final EntityManager entityManager;
+    private RoomDetails details;
+    private Thumbnail thumbnail;
+    private EntityManager entityManager;
 
     public Room() {
         this.details = new RoomDetails();
         this.thumbnail = new Thumbnail();
         this.entityManager = new EntityManager();
+    }
+
+    public void dispose() {
+        this.getDetails().dispose();
+        this.details = null;
+
+        this.getThumbnail().dispose();
+        this.thumbnail = null;
+
+        this.getEntityManager().dispose();
+        this.entityManager = null;
     }
 
     public EntityManager getEntityManager() {

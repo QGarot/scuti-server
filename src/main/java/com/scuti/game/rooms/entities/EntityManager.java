@@ -3,10 +3,17 @@ package com.scuti.game.rooms.entities;
 import java.util.HashMap;
 
 public class EntityManager {
-    private final HashMap<Integer, RoomUser> roomUsers;
+    private HashMap<Integer, RoomUser> roomUsers;
 
     public EntityManager() {
         this.roomUsers = new HashMap<>();
+    }
+
+    public void dispose() {
+        for (int userId: this.getRoomUsers().keySet()) {
+            this.disposeRoomUser(userId);
+        }
+        this.roomUsers = null;
     }
 
     public HashMap<Integer, RoomUser> getRoomUsers() {

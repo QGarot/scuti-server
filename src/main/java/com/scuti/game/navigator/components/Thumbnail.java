@@ -16,6 +16,14 @@ public class Thumbnail {
         this.itemImageId = 1;
     }
 
+    public void dispose() {
+        this.backgroundImageIcon = 0;
+        this.foregroundImageIcon = 0;
+        this.itemCount = 0;
+        this.itemPosition = 0;
+        this.itemImageId = 0;
+    }
+
     public void fill(int backgroundImageIcon, int foregroundImageIcon, int itemCount, int itemPosition, int itemImageId) {
         this.backgroundImageIcon = backgroundImageIcon;
         this.foregroundImageIcon = foregroundImageIcon;

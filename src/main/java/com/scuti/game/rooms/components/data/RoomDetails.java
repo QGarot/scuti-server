@@ -44,6 +44,25 @@ public class RoomDetails {
         this.displayRoomEntryAd = true;
     }
 
+    public void dispose() {
+        this.type = null;
+        this.description = null;
+        this.category = 0;
+        this.state = null;
+        this.usersNow = 0;
+        this.usersMax = 0;
+        this.score = 0;
+        this.tags = null;
+        this.password = null;
+        this.wallpaper = null;
+        this.floor = null;
+        this.landscape = null;
+        this.tradingAllowed = true;
+        this.dateCreation = null;
+        this.petsAllowed = false;
+        this.displayRoomEntryAd = false;
+    }
+
     public void fill(int id, String type, String caption, String ownerName, String description, int category, String state, int usersNow, int usersMax, String modelName, int score, String tags, String password, String wallpaper, String floor, String landscape, boolean tradingAllowed, boolean petsAllowed, boolean displayRoomEntryAd, String dateCreation) {
         this.id = id;
         this.type = type;
