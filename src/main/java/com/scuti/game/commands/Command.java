@@ -1,4 +1,4 @@
-package com.scuti.commands;
+package com.scuti.game.commands;
 
 import com.scuti.game.users.User;
 
@@ -20,5 +20,13 @@ public abstract class Command {
      */
     public int getMinRank() {
         return minRank;
+    }
+
+    /**
+     * Set the min rank to use the command
+     * @param minRank: new value of the min rank
+     */
+    public void setMinRank(int minRank) {
+        this.minRank = minRank;
     }
 }

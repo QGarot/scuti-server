@@ -8,6 +8,7 @@ import com.scuti.messages.incoming.handshake.SSOTicketMessageEvent;
 import com.scuti.messages.incoming.inventory.purse.GetCreditsInfoMessageEvent;
 import com.scuti.messages.incoming.navigator.*;
 import com.scuti.messages.incoming.register.UpdateFigureDataMessageEvent;
+import com.scuti.messages.incoming.rooms.chat.ChatMessageEvent;
 import com.scuti.messages.incoming.rooms.engine.GetFurnitureAliasesMessageEvent;
 import com.scuti.messages.incoming.rooms.engine.GetRoomEntryDataMessageEvent;
 import com.scuti.messages.incoming.rooms.session.OpenFlatConnectionMessageEvent;
@@ -42,6 +43,7 @@ public class MessageHandler {
         this.packets.put(391, new OpenFlatConnectionMessageEvent());
         this.packets.put(215, new GetFurnitureAliasesMessageEvent());
         this.packets.put(390, new GetRoomEntryDataMessageEvent());
+        this.packets.put(52, new ChatMessageEvent());
     }
 
     private void registerNavigator() {
