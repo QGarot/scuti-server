@@ -24,6 +24,19 @@ public class RoomManager implements IManager {
         Logger.logInfo("RoomManager loaded!");
     }
 
+    @Override
+    public void unload() {
+        for (Room room: this.getRoomsLoaded().values()) {
+            room.dispose();
+        }
+        this.getRoomsLoaded().clear();
+
+        this.roomsLoaded = null;
+        this.roomDao = null;
+        instance = null;
+        Logger.logInfo("RoomManager unloaded!");
+    }
+
     public void loadRoomsForUser(User user) {
         for (Room room: this.getRoomsLoaded().values()) {
             if (Objects.equals(room.getDetails().getOwnerName(), user.getDetails().getUsername())) {

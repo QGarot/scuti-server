@@ -2,6 +2,7 @@ package com.scuti.game.users;
 
 import com.scuti.api.utils.IManager;
 import com.scuti.storage.dao.UserDao;
+import com.scuti.util.logger.Logger;
 import io.netty.channel.Channel;
 
 import java.util.ArrayList;
@@ -22,6 +23,18 @@ public class UserManager implements IManager {
     public void initialize() {
         this.userDao = new UserDao();
         this.users = new ArrayList<>();
+    }
+
+    @Override
+    public void unload() {
+        for (User user: this.getUsers()) {
+            user.disconnect();
+        }
+
+        this.getUsers().clear();
+        this.userDao = null;
+        instance = null;
+        Logger.logInfo("UserManager unloaded!");
     }
 
     public UserDao getUserDao() {

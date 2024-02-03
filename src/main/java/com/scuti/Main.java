@@ -1,7 +1,9 @@
 package com.scuti;
 
+import com.scuti.game.commands.CommandManager;
 import com.scuti.game.rooms.RoomManager;
 import com.scuti.game.rooms.RoomModelManager;
+import com.scuti.game.users.UserManager;
 import com.scuti.server.netty.NettyServer;
 import com.scuti.storage.Database;
 
@@ -18,11 +20,22 @@ public class Main {
         NettyServer server = new NettyServer("127.0.0.1", 35000);
         server.createSocket();
         server.bind();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(Main::unload));
     }
 
     public static void initialize() {
         Database.getInstance();
+        UserManager.getInstance();
         RoomManager.getInstance();
         RoomModelManager.getInstance();
+        CommandManager.getInstance();
+    }
+
+    public static void unload() {
+        UserManager.getInstance().unload();
+        RoomManager.getInstance().unload();
+        RoomModelManager.getInstance().unload();
+        CommandManager.getInstance().unload();
     }
 }

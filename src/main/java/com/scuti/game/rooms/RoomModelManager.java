@@ -23,6 +23,16 @@ public class RoomModelManager implements IManager {
         Logger.logInfo("RoomModelManager loaded!");
     }
 
+    @Override
+    public void unload() {
+        this.getModels().clear();
+
+        this.roomModelDao = null;
+        this.models = null;
+        instance = null;
+        Logger.logInfo("RoomModelManager unloaded!");
+    }
+
     public RoomModelDao getRoomModelDao() {
         return roomModelDao;
     }

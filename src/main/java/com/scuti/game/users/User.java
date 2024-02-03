@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private final NettyPlayerNetwork network;
+    private NettyPlayerNetwork network;
     private UserDetails details;
     private Messenger messenger;
-    private final List<Room> rooms;
+    private List<Room> rooms;
     private int roomId;
 
     public User(NettyPlayerNetwork network) {
@@ -62,17 +62,21 @@ public class User {
     }
 
     public void dispose() {
+        this.getDetails().dispose();
         this.details = null;
 
         this.getMessenger().dispose();
         this.messenger = null;
 
+        this.getRooms().clear();
+        this.rooms = null;
+
+        this.setRoomId(0);
     }
 
     public void disconnect() {
-        this.getDetails().setOnline(false);
-        this.getNetwork().close();
         this.send(new DisconnectReasonMessageComposer(1));
+        this.getNetwork().close();
     }
 
     public List<Room> getRooms() {

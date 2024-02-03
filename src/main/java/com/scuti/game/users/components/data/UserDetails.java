@@ -37,6 +37,23 @@ public class UserDetails {
         this.online = online;
     }
 
+    public void dispose() {
+        this.id = 0;
+        this.username = null;
+        this.email = null;
+        this.figure = null;
+        this.motto = null;
+        this.sex = null;
+        this.ssoTicket = null;
+        this.rank = 0;
+        this.credits = 0;
+        this.pixels = 0;
+        this.shells = 0;
+        this.respect = 0;
+        this.dailyRespectPoints = 0;
+        this.online = false;
+    }
+
     public boolean isOnline() {
         return online;
     }

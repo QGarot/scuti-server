@@ -46,6 +46,7 @@ public class ConnectionHandler extends SimpleChannelInboundHandler<NettyRequest>
         this.server.getChannels().remove(ctx.channel());
 
         User user = UserManager.getInstance().getUserByChannel(ctx.channel());
+        user.dispose();
         UserManager.getInstance().removeUser(user);
         Logger.logInfo("Disconnection from ".concat(user.getNetwork().getIpAddress()));
     }
