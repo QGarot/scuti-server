@@ -22,7 +22,7 @@ public class ConnectionHandler extends SimpleChannelInboundHandler<NettyRequest>
     }
 
     @Override
-    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+    public void channelRegistered(ChannelHandlerContext ctx) {
         NettyPlayerNetwork network = new NettyPlayerNetwork(ctx.channel(), ctx.channel().hashCode());
 
         int maxConnectionPerIp = 2;
@@ -34,25 +34,28 @@ public class ConnectionHandler extends SimpleChannelInboundHandler<NettyRequest>
         }
 
         User user = new User(network);
-        UserManager.getInstance().addUser(user);
+        UserManager.getInstance().getUsers().add(user);
         if (count >= maxConnectionPerIp) {
-            user.disconnect();
+            user.disconnect(1);
             Logger.logInfo("Connection failed from ".concat(user.getNetwork().getIpAddress()).concat(". Max connection per ip is ".concat(String.valueOf(maxConnectionPerIp))));
         }
     }
 
     @Override
-    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+    public void channelUnregistered(ChannelHandlerContext ctx) {
         this.server.getChannels().remove(ctx.channel());
-
         User user = UserManager.getInstance().getUserByChannel(ctx.channel());
-        user.dispose();
-        UserManager.getInstance().removeUser(user);
-        Logger.logInfo("Disconnection from ".concat(user.getNetwork().getIpAddress()));
+
+        if (user != null) {
+            UserManager.getInstance().getUsers().remove(user);
+            Logger.logInfo("Disconnection from ".concat(user.getNetwork().getIpAddress()));
+            user.getNetwork().close();
+            user.dispose();
+        }
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, NettyRequest message) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, NettyRequest message) {
         Channel channel = ctx.channel();
         User user = UserManager.getInstance().getUserByChannel(channel);
 
@@ -60,7 +63,7 @@ public class ConnectionHandler extends SimpleChannelInboundHandler<NettyRequest>
     }
 
     @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+    public void channelReadComplete(ChannelHandlerContext ctx) {
         ctx.flush();
     }
 }

@@ -27,14 +27,11 @@ public class UserManager implements IManager {
 
     @Override
     public void unload() {
+        Logger.logInfo("Disconnection of all connected users...");
         for (User user: this.getUsers()) {
-            user.disconnect();
+            user.disconnect(1);
         }
-
-        this.getUsers().clear();
-        this.userDao = null;
-        instance = null;
-        Logger.logInfo("UserManager unloaded!");
+        //Logger.logInfo("UserManager unloaded!");
     }
 
     public UserDao getUserDao() {
@@ -47,14 +44,6 @@ public class UserManager implements IManager {
         }
 
         return instance;
-    }
-
-    public void addUser(User user) {
-        this.users.add(user);
-    }
-
-    public void removeUser(User user) {
-        this.users.remove(user);
     }
 
     public void displayUsers() {

@@ -72,11 +72,12 @@ public class User {
         this.rooms = null;
 
         this.setRoomId(0);
+        this.network = null;
     }
 
-    public void disconnect() {
-        this.send(new DisconnectReasonMessageComposer(1));
-        this.getNetwork().close();
+    public void disconnect(int reason) {
+        this.send(new DisconnectReasonMessageComposer(reason));
+        //this.getNetwork().close();
     }
 
     public List<Room> getRooms() {

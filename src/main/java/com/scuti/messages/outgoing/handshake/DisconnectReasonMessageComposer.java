@@ -3,7 +3,7 @@ package com.scuti.messages.outgoing.handshake;
 import com.scuti.messages.outgoing.MessageComposer;
 
 public class DisconnectReasonMessageComposer extends MessageComposer {
-    private int reason;
+    private final int reason;
     public DisconnectReasonMessageComposer(int reason) {
         this.getResponse().setHeader(287);
         this.reason = reason;

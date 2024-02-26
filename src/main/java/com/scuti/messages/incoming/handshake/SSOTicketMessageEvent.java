@@ -20,7 +20,7 @@ public class SSOTicketMessageEvent extends MessageEvent {
             user.send(new AuthenticationOKMessageComposer());
             user.send(new MotdNotificationMessageComposer());
         } else {
-            user.disconnect();
+            user.disconnect(1);
         }
     }
 }
