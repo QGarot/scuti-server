@@ -24,6 +24,9 @@ public class NettyServer  {
     private String ip;
     private Integer port;
 
+    private EventLoopGroup bossGroup;
+    private EventLoopGroup workerGroup;
+
     public NettyServer(String ip, Integer port) {
         this.channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
         this.bootstrap = new ServerBootstrap();
@@ -33,10 +36,10 @@ public class NettyServer  {
 
     public void createSocket() {
         int threads = Runtime.getRuntime().availableProcessors() * 2;
-        EventLoopGroup bossGroup = (Epoll.isAvailable()) ? new EpollEventLoopGroup(threads) : new NioEventLoopGroup(threads);
-        EventLoopGroup workerGroup = (Epoll.isAvailable()) ? new EpollEventLoopGroup() : new NioEventLoopGroup();
+        this.bossGroup = (Epoll.isAvailable()) ? new EpollEventLoopGroup(threads) : new NioEventLoopGroup(threads);
+        this.workerGroup = (Epoll.isAvailable()) ? new EpollEventLoopGroup(threads) : new NioEventLoopGroup(threads);
 
-        this.bootstrap.group(bossGroup, workerGroup)
+        this.bootstrap.group(this.bossGroup, this.workerGroup)
                 .channel((Epoll.isAvailable()) ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
                 .childHandler(new NettyChannelInitializer(this))
                 .option(ChannelOption.SO_BACKLOG, BACK_LOG)
@@ -59,6 +62,11 @@ public class NettyServer  {
             }
         });
 
+    }
+
+    public void dispose() {
+        this.workerGroup.shutdownGracefully();
+        this.bossGroup.shutdownGracefully();
     }
 
     public DefaultChannelGroup getChannels() {
