@@ -20,7 +20,7 @@ import com.scuti.util.logger.Logger;
 import java.util.HashMap;
 
 public class MessageHandler {
-    private HashMap<Integer, MessageEvent> packets;
+    private final HashMap<Integer, MessageEvent> packets;
     private static MessageHandler instance;
 
     private MessageHandler() {
@@ -77,6 +77,11 @@ public class MessageHandler {
         this.packets.put(39, new RequestBuddyMessageEvent());
     }
 
+    /**
+     * Handle incoming packet
+     * @param user:
+     * @param clientMessage:
+     */
     public void handle(User user, NettyRequest clientMessage) {
         int header = clientMessage.getHeader();
         if (this.packets.containsKey(header)) {

@@ -19,6 +19,7 @@ public class CommandManager implements IManager {
         this.commands = new HashMap<>();
         this.registerUserCommands();
         this.registerStaffCommands();
+        Logger.logInfo("CommandManager loaded!");
     }
 
     @Override

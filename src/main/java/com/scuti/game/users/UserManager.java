@@ -23,6 +23,7 @@ public class UserManager implements IManager {
     public void initialize() {
         this.userDao = new UserDao();
         this.users = new ArrayList<>();
+        Logger.logInfo("UserManager loaded!");
     }
 
     @Override

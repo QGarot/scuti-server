@@ -37,6 +37,10 @@ public class RoomManager implements IManager {
         Logger.logInfo("RoomManager unloaded!");
     }
 
+    /**
+     * Load all rooms of a specific user
+     * @param user:
+     */
     public void loadRoomsForUser(User user) {
         for (Room room: this.getRoomsLoaded().values()) {
             if (Objects.equals(room.getDetails().getOwnerName(), user.getDetails().getUsername())) {

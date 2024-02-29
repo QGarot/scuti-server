@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class ConnectionHandler extends SimpleChannelInboundHandler<NettyRequest> {
 
-    private NettyServer server;
+    private final NettyServer server;
 
     public ConnectionHandler(NettyServer server) {
         this.server = server;

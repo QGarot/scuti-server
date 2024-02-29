@@ -64,6 +64,9 @@ public class NettyServer  {
 
     }
 
+    /**
+     * Shutdown gracefully worker and boss groups
+     */
     public void dispose() {
         this.workerGroup.shutdownGracefully();
         this.bossGroup.shutdownGracefully();

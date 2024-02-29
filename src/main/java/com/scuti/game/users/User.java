@@ -52,6 +52,10 @@ public class User {
         return this.network;
     }
 
+    /**
+     * Compose and send a message composer to the client
+     * @param message: message composer to send
+     */
     public void send(MessageComposer message) {
         try {
             message.compose();
@@ -75,6 +79,10 @@ public class User {
         this.network = null;
     }
 
+    /**
+     * Send a packet to disconnect the user
+     * @param reason: disconnection reason
+     */
     public void disconnect(int reason) {
         this.send(new DisconnectReasonMessageComposer(reason));
         //this.getNetwork().close();

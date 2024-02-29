@@ -1,5 +1,6 @@
 package com.scuti;
 
+import com.scuti.game.catalog.CatalogManager;
 import com.scuti.game.commands.CommandManager;
 import com.scuti.game.rooms.RoomManager;
 import com.scuti.game.rooms.RoomModelManager;
@@ -25,18 +26,26 @@ public class Main {
         Runtime.getRuntime().addShutdownHook(new Thread(Main::unload));
     }
 
+    /**
+     * Initialize managers
+     */
     public static void initialize() {
         Database.getInstance();
         UserManager.getInstance();
         RoomManager.getInstance();
         RoomModelManager.getInstance();
         CommandManager.getInstance();
+        //CatalogManager.getInstance();
     }
 
+    /**
+     * Unload managers and Netty server
+     */
     public static void unload() {
         RoomManager.getInstance().unload();
         RoomModelManager.getInstance().unload();
         CommandManager.getInstance().unload();
+        //CatalogManager.getInstance().unload();
         UserManager.getInstance().unload();
         server.dispose();
     }
