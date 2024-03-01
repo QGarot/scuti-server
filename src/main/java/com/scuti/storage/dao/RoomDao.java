@@ -9,6 +9,24 @@ import java.sql.*;
 import java.util.HashMap;
 
 public class RoomDao {
+    public void resetVisitors() {
+        Connection connection;
+        PreparedStatement preparedStatement;
+
+        String sql = "UPDATE rooms SET users_now = 0 WHERE users_now > 0;";
+
+        try {
+            connection = Database.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.execute();
+
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            Logger.logError(e.getMessage());
+        }
+    }
+
     public HashMap<Integer, Room> getRooms() {
         Connection connection;
         PreparedStatement preparedStatement;

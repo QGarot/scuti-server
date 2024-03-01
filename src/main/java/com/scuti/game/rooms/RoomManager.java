@@ -20,6 +20,10 @@ public class RoomManager implements IManager {
     @Override
     public void initialize() {
         this.roomDao = new RoomDao();
+
+        // Reset current visitors before loading rooms
+        this.getRoomDao().resetVisitors();
+
         this.roomsLoaded = this.getRoomDao().getRooms();
         Logger.logInfo("RoomManager loaded!");
     }
