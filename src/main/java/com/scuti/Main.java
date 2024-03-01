@@ -2,6 +2,7 @@ package com.scuti;
 
 import com.scuti.game.catalog.CatalogManager;
 import com.scuti.game.commands.CommandManager;
+import com.scuti.game.items.ItemManager;
 import com.scuti.game.rooms.RoomManager;
 import com.scuti.game.rooms.RoomModelManager;
 import com.scuti.game.users.UserManager;
@@ -35,7 +36,8 @@ public class Main {
         RoomManager.getInstance();
         RoomModelManager.getInstance();
         CommandManager.getInstance();
-        //CatalogManager.getInstance();
+        CatalogManager.getInstance();
+        ItemManager.getInstance();
     }
 
     /**
@@ -45,7 +47,8 @@ public class Main {
         RoomManager.getInstance().unload();
         RoomModelManager.getInstance().unload();
         CommandManager.getInstance().unload();
-        //CatalogManager.getInstance().unload();
+        CatalogManager.getInstance().unload();
+        ItemManager.getInstance().unload();
         UserManager.getInstance().unload();
         server.dispose();
     }

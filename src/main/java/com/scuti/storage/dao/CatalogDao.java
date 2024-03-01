@@ -64,7 +64,7 @@ public class CatalogDao {
                         resultSet.getInt("parent_id"),
                         resultSet.getString("caption"),
                         resultSet.getBoolean("visible"),
-                        resultSet.getBoolean("enable"),
+                        true,
                         resultSet.getInt("min_rank"),
                         resultSet.getBoolean("club_only"),
                         resultSet.getInt("icon_color"),
@@ -78,7 +78,7 @@ public class CatalogDao {
                         resultSet.getString("page_text_details"),
                         resultSet.getString("page_text_teaser"),
                         resultSet.getString("page_link_description"),
-                        resultSet.getString("page_text_link_pagename"));
+                        resultSet.getString("page_link_pagename"));
                 catalogPages.add(page);
             }
 

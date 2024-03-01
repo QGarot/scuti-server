@@ -1,6 +1,8 @@
 package com.scuti.messages;
 
 import com.scuti.messages.incoming.MessageEvent;
+import com.scuti.messages.incoming.catalog.GetCatalogIndexMessageEvent;
+import com.scuti.messages.incoming.catalog.GetCatalogPageMessageEvent;
 import com.scuti.messages.incoming.friendlist.*;
 import com.scuti.messages.incoming.handshake.InfoRetrieveMessageComposer;
 import com.scuti.messages.incoming.handshake.InitCryptoMessageEvent;
@@ -33,6 +35,12 @@ public class MessageHandler {
         this.registerFriendList();
         this.registerRooms();
         this.registerRegister();
+        this.registerCatalog();
+    }
+
+    private void registerCatalog() {
+        this.packets.put(101, new GetCatalogIndexMessageEvent());
+        this.packets.put(102, new GetCatalogPageMessageEvent());
     }
 
     private void registerRegister() {
