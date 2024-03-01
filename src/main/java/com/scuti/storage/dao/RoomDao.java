@@ -56,6 +56,10 @@ public class RoomDao {
                 );
                 rooms.put(room.getDetails().getId(), room);
             }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
         } catch (SQLException e) {
             Logger.logError(e.getMessage());
         }

@@ -40,6 +40,10 @@ public class CatalogDao {
                         resultSet.getInt("song_id"));
                 catalogItems.add(catalogItem);
             }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
         } catch (Exception e) {
             Logger.logError(e.getMessage());
         }
@@ -82,6 +86,9 @@ public class CatalogDao {
                 catalogPages.add(page);
             }
 
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
         } catch (Exception e) {
             Logger.logError(e.getMessage());
         }
