@@ -8,6 +8,7 @@ import com.scuti.game.items.ItemManager;
 import com.scuti.messages.outgoing.MessageComposer;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CatalogPageMessageComposer extends MessageComposer {
     private final CatalogPage catalogPage;
@@ -25,8 +26,7 @@ public class CatalogPageMessageComposer extends MessageComposer {
     public void compose() {
         this.getResponse().appendInt32(this.getCatalogPage().getId());
         String layout = this.getCatalogPage().getLayout();
-
-        if (layout == "frontpage") {
+        if (Objects.equals(layout, "frontpage")) {
             this.getResponse().appendStringWithBreak("frontpage3");
             this.getResponse().appendInt32(3);
             this.getResponse().appendStringWithBreak(this.getCatalogPage().getLayoutHeadline());
@@ -39,7 +39,7 @@ public class CatalogPageMessageComposer extends MessageComposer {
             this.getResponse().appendStringWithBreak(this.getCatalogPage().getTextDetails());
             this.getResponse().appendStringWithBreak(this.getCatalogPage().getTextTeaser());
             this.getResponse().appendStringWithBreak("Code: ");
-        } else if (layout == "club_buy") {
+        } else if (Objects.equals(layout, "club_buy")) {
             this.getResponse().appendStringWithBreak(this.getCatalogPage().getLayout());
             this.getResponse().appendInt32(1);
             this.getResponse().appendStringWithBreak("habboclub_2");
