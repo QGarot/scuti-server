@@ -1,7 +1,8 @@
 package com.scuti.game.catalog;
 
 import com.scuti.api.utils.IManager;
-import com.scuti.storage.dao.CatalogDao;
+import com.scuti.storage.dao.CatalogPagesDao;
+import com.scuti.storage.dao.CatalogItemsDao;
 import com.scuti.util.logger.Logger;
 
 import java.util.ArrayList;
@@ -11,7 +12,8 @@ public class CatalogManager implements IManager {
     private static CatalogManager instance;
     private List<CatalogPage> catalogPages;
     private List<CatalogItem> catalogItems;
-    private CatalogDao catalogDao;
+    private CatalogPagesDao catalogPagesDao;
+    private CatalogItemsDao catalogItemsDao;
 
     public CatalogManager() {
         this.initialize();
@@ -27,9 +29,10 @@ public class CatalogManager implements IManager {
 
     @Override
     public void initialize() {
-        this.catalogDao = new CatalogDao();
-        this.catalogPages = this.getCatalogDao().getCatalogPages();
-        this.catalogItems = this.getCatalogDao().getCatalogItems();
+        this.catalogPagesDao = new CatalogPagesDao();
+        this.catalogItemsDao = new CatalogItemsDao();
+        this.catalogPages = this.getCatalogPagesDao().getAll();
+        this.catalogItems = this.getCatalogItemsDao().getAll();
         Logger.logInfo("CatalogManager loaded!");
     }
 
@@ -37,13 +40,18 @@ public class CatalogManager implements IManager {
     public void unload() {
         this.getCatalogItems().clear();
         this.getCatalogPages().clear();
-        this.catalogDao = null;
+        this.catalogPagesDao = null;
+        this.catalogItemsDao = null;
         this.catalogItems = null;
         this.catalogPages = null;
     }
 
-    public CatalogDao getCatalogDao() {
-        return this.catalogDao;
+    public CatalogItemsDao getCatalogItemsDao() {
+        return this.catalogItemsDao;
+    }
+
+    public CatalogPagesDao getCatalogPagesDao() {
+        return this.catalogPagesDao;
     }
 
     public List<CatalogPage> getCatalogPages() {
