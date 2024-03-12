@@ -25,7 +25,6 @@ public class Database {
         this.config = new HikariConfig();
         this.getConfig().setDriverClassName("com.mysql.cj.jdbc.Driver");
         this.getConfig().setJdbcUrl("jdbc:mysql://" + this.getHost() + ":3306/" + this.getName());
-        //this.getConfig().setJdbcUrl("jdbc:mariadb://" + this.getHost() + ":3306/" + this.getName());
         this.getConfig().setUsername(this.getUsername());
         this.getConfig().setPassword(this.getPassword());
         this.dataSource = new HikariDataSource(this.getConfig());
