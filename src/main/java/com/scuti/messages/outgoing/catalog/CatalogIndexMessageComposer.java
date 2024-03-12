@@ -7,10 +7,12 @@ import java.util.List;
 
 public class CatalogIndexMessageComposer extends MessageComposer {
     private final List<CatalogPage> pages;
+    private final boolean displayIds;
 
-    public CatalogIndexMessageComposer(List<CatalogPage> pages) {
+    public CatalogIndexMessageComposer(List<CatalogPage> pages, boolean displayIds) {
         this.getResponse().setHeader(126);
         this.pages = pages;
+        this.displayIds = displayIds;
     }
 
     @Override
@@ -43,13 +45,21 @@ public class CatalogIndexMessageComposer extends MessageComposer {
         this.getResponse().appendInt32(page.getIconColor());
         this.getResponse().appendInt32(page.getIconImg());
         this.getResponse().appendInt32(page.getId());
-        this.getResponse().appendStringWithBreak(page.getCaption());
+        if (this.displayIds()) {
+            this.getResponse().appendStringWithBreak(page.getCaption().concat("[").concat(String.valueOf(page.getId())).concat("]"));
+        } else {
+            this.getResponse().appendStringWithBreak(page.getCaption());
+        }
         this.getResponse().appendInt32(this.getTreeSize(1, page.getId()));
         this.getResponse().appendBoolean(true);
     }
 
     public List<CatalogPage> getPages() {
         return this.pages;
+    }
+
+    private boolean displayIds() {
+        return this.displayIds;
     }
 
     public int getTreeSize(int rank, int treeId) {

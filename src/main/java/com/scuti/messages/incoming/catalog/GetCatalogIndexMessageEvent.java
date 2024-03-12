@@ -9,6 +9,8 @@ import com.scuti.server.netty.streams.NettyRequest;
 public class GetCatalogIndexMessageEvent extends MessageEvent {
     @Override
     public void handle(User user, NettyRequest clientMessage) {
-        user.send(new CatalogIndexMessageComposer(CatalogManager.getInstance().getCatalogPages()));
+        // just for some tests
+        int pageIdsMinRank = 1;
+        user.send(new CatalogIndexMessageComposer(CatalogManager.getInstance().getCatalogPages(), user.getDetails().getRank() >= pageIdsMinRank));
     }
 }
