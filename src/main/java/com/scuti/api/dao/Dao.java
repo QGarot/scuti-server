@@ -14,7 +14,7 @@ public interface Dao<T> {
      * Insert data corresponding to the given T object
      * @param t: instance to insert in the database
      */
-    void create(T t);
+    void insert(T t);
 
     /**
      * Update data corresponding to the given T object

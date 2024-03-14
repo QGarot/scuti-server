@@ -1,8 +1,8 @@
-package com.scuti.game.users.components.messenger.users;
+package com.scuti.game.users.components.friendship.users;
 
 public class Buddy extends ConsoleAvatar {
-    private int categoryId;
-    private String facebookId;
+    private final int categoryId;
+    private final String facebookId;
 
     public Buddy(int id, String username, int gender, boolean online, boolean followingAllowed, String figure, int categoryId, String motto, String lastLogin, String facebookId) {
         super(id, username, gender, online, followingAllowed, figure, motto, lastLogin);

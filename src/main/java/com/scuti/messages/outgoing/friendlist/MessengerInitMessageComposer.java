@@ -1,18 +1,18 @@
 package com.scuti.messages.outgoing.friendlist;
 
-import com.scuti.game.users.components.messenger.Messenger;
-import com.scuti.game.users.components.messenger.users.Buddy;
+import com.scuti.game.users.components.friendship.Friendship;
+import com.scuti.game.users.components.friendship.users.Buddy;
 import com.scuti.messages.outgoing.MessageComposer;
 
 public class MessengerInitMessageComposer extends MessageComposer {
-    private Messenger messenger;
-    public MessengerInitMessageComposer(Messenger messenger) {
+    private final Friendship friendship;
+    public MessengerInitMessageComposer(Friendship friendship) {
         this.getResponse().setHeader(12);
-        this.messenger = messenger;
+        this.friendship = friendship;
     }
 
-    public Messenger getMessenger() {
-        return messenger;
+    public Friendship getFriendship() {
+        return friendship;
     }
 
     public void serializeBuddy(Buddy buddy) {
@@ -47,9 +47,9 @@ public class MessengerInitMessageComposer extends MessageComposer {
         //this.getResponse().appendInt32(2);
         //this.getResponse().appendStringWithBreak("cat2");
 
-        this.getResponse().appendInt32(this.getMessenger().getBuddies().size()); // number of friends..
+        this.getResponse().appendInt32(this.getFriendship().getBuddies().size()); // number of friends..
         // friends
-        for (Buddy buddy: this.getMessenger().getBuddies()) {
+        for (Buddy buddy: this.getFriendship().getBuddies()) {
             this.serializeBuddy(buddy);
         }
     }

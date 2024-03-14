@@ -1,7 +1,7 @@
 package com.scuti.game.items;
 
 import com.scuti.api.utils.IManager;
-import com.scuti.storage.dao.ItemDao;
+import com.scuti.storage.dao.furnitures.ItemDao;
 import com.scuti.util.logger.Logger;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class ItemManager implements IManager {
     @Override
     public void initialize() {
         this.itemDao = new ItemDao();
-        this.itemBases = this.getItemDao().getItemBases();
+        this.itemBases = this.getItemDao().getAll();
         Logger.logInfo("Item manager loaded!");
     }
 

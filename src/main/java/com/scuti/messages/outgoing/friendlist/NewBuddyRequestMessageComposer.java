@@ -3,9 +3,9 @@ package com.scuti.messages.outgoing.friendlist;
 import com.scuti.messages.outgoing.MessageComposer;
 
 public class NewBuddyRequestMessageComposer extends MessageComposer {
-    private int requestId;
-    private String requesterName;
-    private String requesterFigure;
+    private final int requestId;
+    private final String requesterName;
+    private final String requesterFigure;
     public NewBuddyRequestMessageComposer(int requestId, String requesterName, String requesterFigure) {
         this.getResponse().setHeader(132);
         this.requestId = requestId;

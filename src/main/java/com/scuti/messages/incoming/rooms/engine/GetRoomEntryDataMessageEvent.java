@@ -15,8 +15,8 @@ import java.util.Objects;
 public class GetRoomEntryDataMessageEvent extends MessageEvent {
     @Override
     public void handle(User user, NettyRequest clientMessage) {
-        Room room = RoomManager.getInstance().getRoomsLoaded().get(user.getRoomId());
-        RoomModel model = RoomModelManager.getInstance().getModels().get(room.getDetails().getModelName());
+        Room room = RoomManager.getInstance().getRoomById(user.getRoomId());
+        RoomModel model = RoomModelManager.getInstance().getModelByName(room.getDetails().getModelName());
 
         int x = model.getDoorX();
         int y = model.getDoorY();

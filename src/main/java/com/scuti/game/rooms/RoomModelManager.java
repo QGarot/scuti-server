@@ -2,15 +2,16 @@ package com.scuti.game.rooms;
 
 import com.scuti.api.utils.IManager;
 import com.scuti.game.rooms.mapping.RoomModel;
-import com.scuti.storage.dao.RoomModelDao;
+import com.scuti.storage.dao.rooms.RoomModelDao;
 import com.scuti.util.logger.Logger;
 
-import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 public class RoomModelManager implements IManager {
     private static RoomModelManager instance;
     private RoomModelDao roomModelDao;
-    private HashMap<String, RoomModel> models;
+    private List<RoomModel> models;
 
     public RoomModelManager() {
         this.initialize();
@@ -19,7 +20,7 @@ public class RoomModelManager implements IManager {
     @Override
     public void initialize() {
         this.roomModelDao = new RoomModelDao();
-        this.models = this.getRoomModelDao().getModels();
+        this.models = this.getRoomModelDao().getAll();
         Logger.logInfo("RoomModelManager loaded!");
     }
 
@@ -45,7 +46,17 @@ public class RoomModelManager implements IManager {
         return instance;
     }
 
-    public HashMap<String, RoomModel> getModels() {
+    public List<RoomModel> getModels() {
         return models;
+    }
+
+    public RoomModel getModelByName(String name) {
+        for (RoomModel model: this.getModels()) {
+            if (Objects.equals(model.getName(), name)) {
+                return model;
+            }
+        }
+
+        return null;
     }
 }

@@ -1,5 +1,6 @@
-package com.scuti.storage.dao;
+package com.scuti.storage.dao.rooms;
 
+import com.scuti.api.dao.Dao;
 import com.scuti.game.rooms.mapping.RoomModel;
 import com.scuti.storage.Database;
 import com.scuti.util.logger.Logger;
@@ -8,15 +9,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
-public class RoomModelDao {
-    public HashMap<String, RoomModel> getModels() {
+public class RoomModelDao implements Dao<RoomModel> {
+    @Override
+    public List<RoomModel> getAll() {
         Connection connection;
         PreparedStatement preparedStatement;
         ResultSet resultSet;
 
-        HashMap<String, RoomModel> models = new HashMap<>();
+        List<RoomModel> models = new ArrayList<>();
         String sql = "SELECT * FROM room_models;";
 
         try {
@@ -34,7 +37,7 @@ public class RoomModelDao {
                         resultSet.getString("heightmap"),
                         resultSet.getBoolean("club_only")
                 );
-                models.put(model.getName(), model);
+                models.add(model);
             }
 
             resultSet.close();
@@ -45,5 +48,15 @@ public class RoomModelDao {
         }
 
         return models;
+    }
+
+    @Override
+    public void insert(RoomModel roomModel) {
+
+    }
+
+    @Override
+    public void save(RoomModel roomModel) {
+
     }
 }

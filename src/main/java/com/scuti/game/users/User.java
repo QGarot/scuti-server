@@ -1,9 +1,11 @@
 package com.scuti.game.users;
 import com.scuti.game.rooms.Room;
-import com.scuti.game.users.components.messenger.Messenger;
+import com.scuti.game.users.components.friendship.Friendship;
 import com.scuti.game.users.components.data.UserDetails;
 import com.scuti.messages.outgoing.MessageComposer;
+import com.scuti.messages.outgoing.handshake.AuthenticationOKMessageComposer;
 import com.scuti.messages.outgoing.handshake.DisconnectReasonMessageComposer;
+import com.scuti.messages.outgoing.users.MotdNotificationMessageComposer;
 import com.scuti.server.netty.NettyPlayerNetwork;
 import com.scuti.util.logger.Logger;
 
@@ -11,21 +13,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+    // Connection
+    private int id;
     private NettyPlayerNetwork network;
+    // Components
     private UserDetails details;
-    private Messenger messenger;
+    private Friendship friendship;
+    // Rooms
     private List<Room> rooms;
     private int roomId;
 
     public User(NettyPlayerNetwork network) {
         this.network = network;
 
-        // Components
-        this.details = new UserDetails();
-        this.messenger = new Messenger();
-
         // Rooms
         this.rooms = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setRoomId(int roomId) {
@@ -36,12 +46,24 @@ public class User {
         return roomId;
     }
 
-    public void login() {
+    /**
+     * Initialize all loaded user components and made the connection to the client
+     * @param details:
+     * @param friendship:
+     */
+    public void login(UserDetails details, Friendship friendship) {
+        // Init components
+        this.details = details;
+        this.friendship = friendship;
+
+        // TODO: first connection?
+        this.send(new AuthenticationOKMessageComposer());
+        this.send(new MotdNotificationMessageComposer());
         this.getDetails().setOnline(true);
     }
 
-    public Messenger getMessenger() {
-        return this.messenger;
+    public Friendship getFriendship() {
+        return this.friendship;
     }
 
     public UserDetails getDetails() {
@@ -66,11 +88,16 @@ public class User {
     }
 
     public void dispose() {
-        this.getDetails().dispose();
-        this.details = null;
+        if (this.getDetails() != null) {
+            this.getDetails().dispose();
+            this.details = null;
+        }
 
-        this.getMessenger().dispose();
-        this.messenger = null;
+        if (this.getFriendship() != null) {
+            this.getFriendship().dispose();
+            this.friendship = null;
+        }
+
 
         this.getRooms().clear();
         this.rooms = null;

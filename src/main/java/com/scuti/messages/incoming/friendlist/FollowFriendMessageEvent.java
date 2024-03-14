@@ -15,7 +15,7 @@ public class FollowFriendMessageEvent extends MessageEvent {
     public void handle(User user, NettyRequest clientMessage) {
         int buddyId = clientMessage.popWiredInt32();
         User buddy = UserManager.getInstance().getUserById(buddyId);
-        Room room = RoomManager.getInstance().getRoomsLoaded().get(buddy.getRoomId());
+        Room room = RoomManager.getInstance().getRoomById(buddy.getRoomId());
 
         if (room != null) {
             user.send(new RoomForwardMessageComposer(Objects.equals(room.getDetails().getType(), "public"), room.getDetails().getId()));

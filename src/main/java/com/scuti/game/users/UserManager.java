@@ -1,7 +1,11 @@
 package com.scuti.game.users;
 
 import com.scuti.api.utils.IManager;
-import com.scuti.storage.dao.UserDao;
+import com.scuti.game.users.components.data.UserDetails;
+import com.scuti.game.users.components.friendship.Friendship;
+import com.scuti.storage.dao.users.UserDao;
+import com.scuti.storage.dao.users.data.UserDetailsDao;
+import com.scuti.storage.dao.users.friendship.UserFriendshipsDao;
 import com.scuti.util.logger.Logger;
 import io.netty.channel.Channel;
 
@@ -13,15 +17,19 @@ public class UserManager implements IManager {
     private static UserManager instance;
     private List<User> users;
     private UserDao userDao;
+    private UserDetailsDao userDetailsDao;
+    private UserFriendshipsDao userFriendshipsDao;
 
     private UserManager() {
         this.initialize();
     }
 
-
     @Override
     public void initialize() {
         this.userDao = new UserDao();
+        this.userDetailsDao = new UserDetailsDao();
+        this.userFriendshipsDao = new UserFriendshipsDao();
+
         this.users = new ArrayList<>();
         Logger.logInfo("UserManager loaded!");
     }
@@ -33,6 +41,14 @@ public class UserManager implements IManager {
             user.disconnect(1);
         }
         //Logger.logInfo("UserManager unloaded!");
+    }
+
+    public UserFriendshipsDao getUserFriendshipsDao() {
+        return userFriendshipsDao;
+    }
+
+    public UserDetailsDao getUserDetailsDao() {
+        return userDetailsDao;
     }
 
     public UserDao getUserDao() {
@@ -85,5 +101,26 @@ public class UserManager implements IManager {
 
     public List<User> getUsers() {
         return this.users;
+    }
+
+    /**
+     * Check SSO login and fill user params
+     * @param user: attempted user
+     * @param SSOTicket: connection ticket
+     */
+    public void loginSSO(User user, String SSOTicket) {
+        if (this.getUserDao().validSSOTicket(user, SSOTicket)) {
+            // Search all user params, fill components
+            UserDetails details = this.getUserDetailsDao().get(user.getId());
+            Friendship friendship = this.getUserFriendshipsDao().get(user.getId());
+
+            // Log user
+            user.login(details, friendship);
+
+            this.getUserDetailsDao().save(user.getDetails());
+            Logger.logInfo(user.getDetails().getUsername().concat(" is now connected!"));
+        } else {
+            user.disconnect(1);
+        }
     }
 }

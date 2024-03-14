@@ -14,7 +14,7 @@ public class GetGuestRoomMessageEvent extends MessageEvent {
         boolean loadingState = clientMessage.popWiredBoolean();
         boolean following = clientMessage.popWiredBoolean();
 
-        Room room = RoomManager.getInstance().getRoomsLoaded().get(roomId);
+        Room room = RoomManager.getInstance().getRoomById(roomId);
 
         user.send(new GetGuestRoomResultComposer(loadingState, room, following, false));
     }

@@ -18,6 +18,6 @@ public class UpdateFigureDataMessageEvent extends MessageEvent {
 
         user.getDetails().setFigure(figure);
         user.getDetails().setSex(gender);
-        UserManager.getInstance().getUserDao().saveDetails(user);
+        UserManager.getInstance().getUserDetailsDao().save(user.getDetails());
     }
 }

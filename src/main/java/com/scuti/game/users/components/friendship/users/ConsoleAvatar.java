@@ -1,14 +1,14 @@
-package com.scuti.game.users.components.messenger.users;
+package com.scuti.game.users.components.friendship.users;
 
 public class ConsoleAvatar {
-    private int id;
-    private String username;
-    private int gender;
-    private boolean online;
-    private boolean followingAllowed;
-    private String figure;
-    private String motto;
-    private String lastLogin;
+    private final int id;
+    private final String username;
+    private final int gender;
+    private final boolean online;
+    private final boolean followingAllowed;
+    private final String figure;
+    private final String motto;
+    private final String lastLogin;
 
     public ConsoleAvatar(int id, String username, int gender, boolean online, boolean followingAllowed, String figure, String motto, String lastLogin) {
         this.id = id;

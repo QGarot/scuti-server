@@ -47,9 +47,15 @@ public class ConnectionHandler extends SimpleChannelInboundHandler<NettyRequest>
         User user = UserManager.getInstance().getUserByChannel(ctx.channel());
 
         if (user != null) {
-            UserManager.getInstance().getUsers().remove(user);
             Logger.logInfo("Disconnection from ".concat(user.getNetwork().getIpAddress()));
+            UserManager.getInstance().getUsers().remove(user);
             user.getNetwork().close();
+
+            if (user.getDetails() != null) {
+                user.getDetails().setOnline(false);
+                UserManager.getInstance().getUserDetailsDao().save(user.getDetails());
+            }
+
             user.dispose();
         }
     }

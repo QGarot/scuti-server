@@ -1,4 +1,4 @@
-package com.scuti.storage.dao;
+package com.scuti.storage.dao.catalog;
 
 import com.scuti.api.dao.Dao;
 import com.scuti.game.catalog.CatalogItem;
@@ -52,7 +52,7 @@ public class CatalogItemsDao implements Dao<CatalogItem> {
     }
 
     @Override
-    public void create(CatalogItem catalogItem) {
+    public void insert(CatalogItem catalogItem) {
 
     }
 

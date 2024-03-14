@@ -1,6 +1,6 @@
 package com.scuti.messages.outgoing.friendlist;
 
-import com.scuti.game.users.components.messenger.users.UserSearched;
+import com.scuti.game.users.components.friendship.users.UserSearched;
 import com.scuti.messages.outgoing.MessageComposer;
 
 import java.util.List;

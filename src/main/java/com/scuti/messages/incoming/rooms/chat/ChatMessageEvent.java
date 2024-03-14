@@ -15,5 +15,10 @@ public class ChatMessageEvent extends MessageEvent {
         if (CommandManager.getInstance().getCommands().containsKey(splitMessage[0])) {
             CommandManager.getInstance().getCommands().get(splitMessage[0]).handle(user, null);
         }
+
+        if (message.equals("kick")) {
+            System.out.println("auto kick");
+            user.disconnect(1);
+        }
     }
 }

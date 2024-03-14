@@ -17,10 +17,10 @@ public class CreateFlatMessageEvent extends MessageEvent {
         room.getDetails().setOwnerName(user.getDetails().getUsername());
         room.getDetails().setModelName(model);
 
-        RoomManager.getInstance().getRoomDao().insertRoomAndFillId(room);
+        RoomManager.getInstance().getRoomDao().insert(room);
 
         if (room.getDetails().getId() != 0) {
-            RoomManager.getInstance().getRoomsLoaded().put(room.getDetails().getId(), room);
+            RoomManager.getInstance().getRoomsLoaded().add(room);
             user.getRooms().add(room);
         } else {
             // TODO: send error alert to the user

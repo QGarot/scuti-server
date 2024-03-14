@@ -1,5 +1,6 @@
-package com.scuti.storage.dao;
+package com.scuti.storage.dao.furnitures;
 
+import com.scuti.api.dao.Dao;
 import com.scuti.game.items.ItemBase;
 import com.scuti.storage.Database;
 import com.scuti.util.logger.Logger;
@@ -11,8 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemDao {
-    public List<ItemBase> getItemBases() {
+public class ItemDao implements Dao<ItemBase> {
+    @Override
+    public List<ItemBase> getAll() {
         List<ItemBase> itemBases = new ArrayList<>();
         Connection connection;
         PreparedStatement preparedStatement;
@@ -59,5 +61,15 @@ public class ItemDao {
         }
 
         return itemBases;
+    }
+
+    @Override
+    public void insert(ItemBase itemBase) {
+
+    }
+
+    @Override
+    public void save(ItemBase itemBase) {
+
     }
 }

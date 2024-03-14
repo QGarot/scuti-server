@@ -1,8 +1,8 @@
 package com.scuti.game.catalog;
 
 import com.scuti.api.utils.IManager;
-import com.scuti.storage.dao.CatalogPagesDao;
-import com.scuti.storage.dao.CatalogItemsDao;
+import com.scuti.storage.dao.catalog.CatalogPagesDao;
+import com.scuti.storage.dao.catalog.CatalogItemsDao;
 import com.scuti.util.logger.Logger;
 
 import java.util.ArrayList;

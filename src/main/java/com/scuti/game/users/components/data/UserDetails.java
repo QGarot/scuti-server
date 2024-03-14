@@ -16,11 +16,7 @@ public class UserDetails {
     private int dailyRespectPoints;
     private boolean online;
 
-    public UserDetails() {
-
-    }
-
-    public void fill(int id, String username, String email, String figure, String motto, String sex, String ssoTicket, int rank, int credits, int pixels, int shells, boolean online) {
+    public UserDetails(int id, String username, String email, String figure, String motto, String sex, String ssoTicket, int rank, int credits, int pixels, int shells, boolean online) {
         this.id = id;
         this.username = username;
         this.email = email;

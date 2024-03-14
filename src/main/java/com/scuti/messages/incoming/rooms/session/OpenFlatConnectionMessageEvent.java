@@ -17,17 +17,17 @@ public class OpenFlatConnectionMessageEvent extends MessageEvent {
         // User has to leave the current room
         int currentRoomId = user.getRoomId();
         if (currentRoomId != 0) {
-            Room currentRoom = RoomManager.getInstance().getRoomsLoaded().get(currentRoomId);
+            Room currentRoom = RoomManager.getInstance().getRoomById(currentRoomId);
             if (currentRoom != null) {
                 currentRoom.getEntityManager().disposeRoomUser(user.getDetails().getId());
                 currentRoom.getDetails().setUsersNow(currentRoom.getDetails().getUsersNow() - 1);
                 System.out.println(user.getDetails().getUsername() + " just leaves " + currentRoom.getDetails().getCaption());
-                RoomManager.getInstance().getRoomDao().saveRoomDetails(currentRoom.getDetails());
+                RoomManager.getInstance().getRoomDao().save(currentRoom);
             }
         }
 
         // Prepare room for user (TODO: link it do database...)
-        Room room = RoomManager.getInstance().getRoomsLoaded().get(roomId);
+        Room room = RoomManager.getInstance().getRoomById(roomId);
         if (room != null) {
             user.setRoomId(roomId);
             room.getDetails().setUsersNow(room.getDetails().getUsersNow() + 1);
@@ -36,7 +36,7 @@ public class OpenFlatConnectionMessageEvent extends MessageEvent {
             user.send(new RoomPropertyMessageComposer("floor", "401"));
             user.send(new RoomPropertyMessageComposer("landscape", "5.3"));
             user.send(new RoomReadyMessageComposer(roomId, room.getDetails().getModelName()));
-            RoomManager.getInstance().getRoomDao().saveRoomDetails(room.getDetails());
+            RoomManager.getInstance().getRoomDao().save(room);
         }
     }
 }
