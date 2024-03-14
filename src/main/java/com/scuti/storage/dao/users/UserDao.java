@@ -2,7 +2,6 @@ package com.scuti.storage.dao.users;
 
 import com.scuti.api.dao.Dao;
 import com.scuti.game.users.User;
-import com.scuti.game.users.components.data.UserDetails;
 import com.scuti.storage.Database;
 import com.scuti.util.logger.Logger;
 
@@ -47,6 +46,27 @@ public class UserDao implements Dao<User> {
             Logger.logError(e.getMessage());
         }
         return success;
+    }
+
+    /**
+     * Set the online status to 0 for all users registered in the database
+     */
+    public void resetUsersStatus() {
+        Connection connection;
+        PreparedStatement preparedStatement;
+
+        String sql = "UPDATE users SET online = 0 WHERE online = 1;";
+
+        try {
+            connection = Database.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.execute();
+
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            Logger.logError(e.getMessage());
+        }
     }
 
     @Override

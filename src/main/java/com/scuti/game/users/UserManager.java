@@ -30,6 +30,9 @@ public class UserManager implements IManager {
         this.userDetailsDao = new UserDetailsDao();
         this.userFriendshipsDao = new UserFriendshipsDao();
 
+        // Reset users status
+        this.getUserDao().resetUsersStatus();
+
         this.users = new ArrayList<>();
         Logger.logInfo("UserManager loaded!");
     }
