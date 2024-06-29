@@ -3,6 +3,9 @@ package com.scuti.game.users;
 import com.scuti.api.utils.IManager;
 import com.scuti.game.users.components.data.UserDetails;
 import com.scuti.game.users.components.friendship.Friendship;
+import com.scuti.messages.outgoing.handshake.AuthenticationOKMessageComposer;
+import com.scuti.messages.outgoing.users.MotdNotificationMessageComposer;
+import com.scuti.server.netty.connections.NettyConnection;
 import com.scuti.storage.dao.users.UserDao;
 import com.scuti.storage.dao.users.data.UserDetailsDao;
 import com.scuti.storage.dao.users.friendship.UserFriendshipsDao;
@@ -41,7 +44,7 @@ public class UserManager implements IManager {
     public void unload() {
         Logger.logInfo("Disconnection of all connected users...");
         for (User user: this.getUsers()) {
-            user.disconnect(1);
+            //user.disconnect(1);
         }
         //Logger.logInfo("UserManager unloaded!");
     }
@@ -64,24 +67,6 @@ public class UserManager implements IManager {
         }
 
         return instance;
-    }
-
-    public void displayUsers() {
-        // debug
-        System.out.println("----------Users----------");
-        for (User user: this.users) {
-            System.out.println(user.getNetwork().getChannel().localAddress().toString());
-        }
-        System.out.println("----------end users----------");
-    }
-
-    public User getUserByChannel(Channel channel) {
-        for (User user: this.users) {
-            if (user.getNetwork().getChannel() == channel) {
-                return user;
-            }
-        }
-        return null;
     }
 
     public User getUserById(int id) {
@@ -107,23 +92,31 @@ public class UserManager implements IManager {
     }
 
     /**
-     * Check SSO login and fill user params
-     * @param user: attempted user
+     * SSO Login
+     * @param connection: attempted client
      * @param SSOTicket: connection ticket
      */
-    public void loginSSO(User user, String SSOTicket) {
-        if (this.getUserDao().validSSOTicket(user, SSOTicket)) {
+    public void loginSSO(NettyConnection connection, String SSOTicket) {
+        int userId = this.getUserDao().getUserIdBySSOTicket(SSOTicket);
+        if (userId > 0) {
             // Search all user params, fill components
-            UserDetails details = this.getUserDetailsDao().get(user.getId());
-            Friendship friendship = this.getUserFriendshipsDao().get(user.getId());
+            UserDetails details = this.getUserDetailsDao().get(userId);
+            Friendship friendship = this.getUserFriendshipsDao().get(userId);
 
-            // Log user
-            user.login(details, friendship);
+            // Create user and associate it to the netty connection
+            User user = new User(details, friendship);
+            connection.setUser(user);
 
+            // Made the connection to the client
+            connection.send(new AuthenticationOKMessageComposer());
+            connection.send(new MotdNotificationMessageComposer());
+            connection.getUser().getDetails().setOnline(true);
+
+            // Save online status and log the connection
             this.getUserDetailsDao().save(user.getDetails());
             Logger.logInfo(user.getDetails().getUsername().concat(" is now connected!"));
         } else {
-            user.disconnect(1);
+            connection.disconnect();
         }
     }
 }

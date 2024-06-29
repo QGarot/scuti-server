@@ -1,5 +1,6 @@
 package com.scuti.server.netty.codec;
 
+import com.scuti.util.logger.Logger;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -16,7 +17,7 @@ public class NetworkEncoder extends MessageToMessageEncoder<byte[]> {
             buffer.writeBytes(bytes);
             list.add(buffer);
         } catch (Exception e) {
-
+            Logger.logError(e.getMessage());
         }
     }
 }

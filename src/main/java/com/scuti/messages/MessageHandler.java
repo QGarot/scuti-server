@@ -4,7 +4,7 @@ import com.scuti.messages.incoming.MessageEvent;
 import com.scuti.messages.incoming.catalog.GetCatalogIndexMessageEvent;
 import com.scuti.messages.incoming.catalog.GetCatalogPageMessageEvent;
 import com.scuti.messages.incoming.friendlist.*;
-import com.scuti.messages.incoming.handshake.InfoRetrieveMessageComposer;
+import com.scuti.messages.incoming.handshake.InfoRetrieveMessageEvent;
 import com.scuti.messages.incoming.handshake.InitCryptoMessageEvent;
 import com.scuti.messages.incoming.handshake.SSOTicketMessageEvent;
 import com.scuti.messages.incoming.inventory.purse.GetCreditsInfoMessageEvent;
@@ -15,8 +15,8 @@ import com.scuti.messages.incoming.rooms.engine.GetFurnitureAliasesMessageEvent;
 import com.scuti.messages.incoming.rooms.engine.GetRoomEntryDataMessageEvent;
 import com.scuti.messages.incoming.rooms.session.OpenFlatConnectionMessageEvent;
 import com.scuti.messages.incoming.tracking.EventLogMessageEvent;
+import com.scuti.server.netty.connections.NettyConnection;
 import com.scuti.server.netty.streams.NettyRequest;
-import com.scuti.game.users.User;
 import com.scuti.util.logger.Logger;
 
 import java.util.HashMap;
@@ -66,7 +66,7 @@ public class MessageHandler {
     private void registerHandshake() {
         this.packets.put(206, new InitCryptoMessageEvent());
         this.packets.put(415, new SSOTicketMessageEvent());
-        this.packets.put(7, new InfoRetrieveMessageComposer());
+        this.packets.put(7, new InfoRetrieveMessageEvent());
     }
 
     public void registerInventory() {
@@ -87,14 +87,19 @@ public class MessageHandler {
 
     /**
      * Handle incoming packet
-     * @param user:
+     * @param connection:
      * @param clientMessage:
      */
-    public void handle(User user, NettyRequest clientMessage) {
+    public void handle(NettyConnection connection, NettyRequest clientMessage) {
         int header = clientMessage.getHeader();
         if (this.packets.containsKey(header)) {
             Logger.logIncoming(header);
-            this.packets.get(header).handle(user, clientMessage);
+            try {
+                this.packets.get(header).handle(connection, clientMessage);
+            } catch (Exception e) {
+                Logger.logError("Cannot handle the packet ".concat(String.valueOf(header)));
+                Logger.logError(e.getMessage());
+            }
         } else {
             Logger.logWarning("The packet " + header + " cannot be handled!");
         }

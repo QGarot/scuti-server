@@ -8,38 +8,39 @@ import com.scuti.game.rooms.mapping.RoomModel;
 import com.scuti.game.users.User;
 import com.scuti.messages.incoming.MessageEvent;
 import com.scuti.messages.outgoing.rooms.engine.*;
+import com.scuti.server.netty.connections.NettyConnection;
 import com.scuti.server.netty.streams.NettyRequest;
 
 import java.util.Objects;
 
 public class GetRoomEntryDataMessageEvent extends MessageEvent {
     @Override
-    public void handle(User user, NettyRequest clientMessage) {
-        Room room = RoomManager.getInstance().getRoomById(user.getRoomId());
+    public void handle(NettyConnection connection, NettyRequest clientMessage) {
+        Room room = RoomManager.getInstance().getRoomById(connection.getUser().getRoomId());
         RoomModel model = RoomModelManager.getInstance().getModelByName(room.getDetails().getModelName());
 
         int x = model.getDoorX();
         int y = model.getDoorY();
         int z = model.getDoorZ();
         int rotation = model.getDoorRotation();
-        RoomUser roomUser = new RoomUser(user.getDetails().getId(), x, y, z, rotation);
+        RoomUser roomUser = new RoomUser(connection.getUser().getDetails().getId(), x, y, z, rotation);
         room.getEntityManager().addRoomUser(roomUser);
 
-        System.out.println(user.getDetails().getUsername() + " goes into " + room.getDetails().getCaption());
+        System.out.println(connection.getUser().getDetails().getUsername() + " goes into " + room.getDetails().getCaption());
         System.out.println("- Entities : " + room.getEntityManager().getRoomUsers());
         System.out.println(" - virtualid : " + roomUser.getVirtualId());
 
         // - HeightMapMsgComposer
-        user.send(new HeightMapMessageComposer(model.getHeightmap()));
+        connection.send(new HeightMapMessageComposer(model.getHeightmap()));
         // - FloorHeightmapMsgComposer
-        user.send(new FloorHeightMapMessageComposer(model));
+        connection.send(new FloorHeightMapMessageComposer(model));
         // 3105, 126 (GetUserNotifications, GetRoomAd)
         // - UsersMsgComposer
-        user.send(new UsersMessageComposer(user.getDetails(), roomUser));
+        connection.send(new UsersMessageComposer(connection.getUser().getDetails(), roomUser));
         // Check rights (RoomEntryInfoMsgComposer & RoomVisualizationSettingsComposer)
-        user.send(new RoomEntryInfoMessageComposer(Objects.equals(room.getDetails().getType(), "private"), room.getDetails().getId(), true));
-        user.send(new RoomVisualizationSettingsComposer(false, 0, 0));
+        connection.send(new RoomEntryInfoMessageComposer(Objects.equals(room.getDetails().getType(), "private"), room.getDetails().getId(), true));
+        connection.send(new RoomVisualizationSettingsComposer(false, 0, 0));
 
-        user.send(new UserUpdateMessageComposer(room.getEntityManager().getRoomUsers()));
+        connection.send(new UserUpdateMessageComposer(room.getEntityManager().getRoomUsers()));
     }
 }

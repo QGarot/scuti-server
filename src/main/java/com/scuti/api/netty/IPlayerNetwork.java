@@ -4,6 +4,6 @@ import com.scuti.messages.outgoing.MessageComposer;
 
 public interface IPlayerNetwork {
     void send(MessageComposer messageComposer);
-    void close();
+    void disconnect();
     String getIpAddress();
 }

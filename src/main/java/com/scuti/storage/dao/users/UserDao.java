@@ -15,18 +15,16 @@ public class UserDao implements Dao<User> {
 
     /**
      * Check if the given ticket exists in the users table.
-     * If it is then fill the user id.
-     * @param user:
+     * If it is then return the user id.
      * @param SSOTicket:
      * @return corresponding boolean
      */
-    public boolean validSSOTicket(User user, String SSOTicket) {
+    public int getUserIdBySSOTicket(String SSOTicket) {
         Connection connection;
         PreparedStatement preparedStatement;
         ResultSet resultSet;
 
         String sql = "SELECT id FROM users WHERE auth_ticket = ?;";
-        boolean success = false;
 
         try {
             connection = Database.getInstance().getConnection();
@@ -35,8 +33,7 @@ public class UserDao implements Dao<User> {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                success = true;
-                user.setId(resultSet.getInt("id"));
+                return resultSet.getInt("id");
             }
 
             resultSet.close();
@@ -45,7 +42,8 @@ public class UserDao implements Dao<User> {
         } catch (SQLException e) {
             Logger.logError(e.getMessage());
         }
-        return success;
+
+        return 0;
     }
 
     /**

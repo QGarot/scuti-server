@@ -1,8 +1,8 @@
 package com.scuti.messages.incoming;
 
+import com.scuti.server.netty.connections.NettyConnection;
 import com.scuti.server.netty.streams.NettyRequest;
-import com.scuti.game.users.User;
 
 public abstract class MessageEvent {
-    public abstract void handle(User user, NettyRequest clientMessage);
+    public abstract void handle(NettyConnection connection, NettyRequest clientMessage);
 }

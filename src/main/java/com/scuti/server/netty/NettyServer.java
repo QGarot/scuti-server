@@ -23,6 +23,7 @@ public class NettyServer  {
     private ServerBootstrap bootstrap;
     private String ip;
     private Integer port;
+    private int connections;
 
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
@@ -32,6 +33,7 @@ public class NettyServer  {
         this.bootstrap = new ServerBootstrap();
         this.ip = ip;
         this.port = port;
+        this.connections = 0;
     }
 
     public void createSocket() {
@@ -70,6 +72,18 @@ public class NettyServer  {
     public void dispose() {
         this.workerGroup.shutdownGracefully();
         this.bossGroup.shutdownGracefully();
+    }
+
+    public void incrementConnections() {
+        this.connections = this.connections + 1;
+    }
+
+    public void decrementConnections() {
+        this.connections = this.connections - 1;
+    }
+
+    public int getConnections() {
+        return this.connections;
     }
 
     public DefaultChannelGroup getChannels() {

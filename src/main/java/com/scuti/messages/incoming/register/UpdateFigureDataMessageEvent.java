@@ -3,12 +3,13 @@ package com.scuti.messages.incoming.register;
 import com.scuti.game.users.User;
 import com.scuti.game.users.UserManager;
 import com.scuti.messages.incoming.MessageEvent;
+import com.scuti.server.netty.connections.NettyConnection;
 import com.scuti.server.netty.streams.NettyRequest;
 
 public class UpdateFigureDataMessageEvent extends MessageEvent {
 
     @Override
-    public void handle(User user, NettyRequest clientMessage) {
+    public void handle(NettyConnection connection, NettyRequest clientMessage) {
         // TODO: check get string & update avatar status in the room
         String gender = clientMessage.popFixedString().toUpperCase();
         String figure = clientMessage.popFixedString();
@@ -16,8 +17,8 @@ public class UpdateFigureDataMessageEvent extends MessageEvent {
         System.out.println("gender: " + gender);
         System.out.println("look: " + figure);
 
-        user.getDetails().setFigure(figure);
-        user.getDetails().setSex(gender);
-        UserManager.getInstance().getUserDetailsDao().save(user.getDetails());
+        connection.getUser().getDetails().setFigure(figure);
+        connection.getUser().getDetails().setSex(gender);
+        UserManager.getInstance().getUserDetailsDao().save(connection.getUser().getDetails());
     }
 }
