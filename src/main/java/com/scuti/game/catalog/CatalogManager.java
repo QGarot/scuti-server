@@ -85,4 +85,18 @@ public class CatalogManager implements IManager {
         }
         return null;
     }
+
+    /**
+     * Get catalog item with its id
+     * @param id:
+     * @return catalog item searched:
+     */
+    public CatalogItem getCatalogItemById(int id) {
+        for (CatalogItem catalogItem: this.getCatalogItems()) {
+            if (catalogItem.getId() == id) {
+                return catalogItem;
+            }
+        }
+        return null;
+    }
 }

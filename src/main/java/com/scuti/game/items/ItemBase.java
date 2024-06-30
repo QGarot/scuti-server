@@ -163,7 +163,7 @@ public class ItemBase {
         this.allowMarketplaceSell = allowMarketplaceSell;
     }
 
-    public boolean isAllowGift() {
+    public boolean allowGift() {
         return allowGift;
     }
 

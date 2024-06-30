@@ -3,6 +3,7 @@ package com.scuti.messages;
 import com.scuti.messages.incoming.MessageEvent;
 import com.scuti.messages.incoming.catalog.GetCatalogIndexMessageEvent;
 import com.scuti.messages.incoming.catalog.GetCatalogPageMessageEvent;
+import com.scuti.messages.incoming.catalog.GetIsOfferGiftableMessageEvent;
 import com.scuti.messages.incoming.friendlist.*;
 import com.scuti.messages.incoming.handshake.InfoRetrieveMessageEvent;
 import com.scuti.messages.incoming.handshake.InitCryptoMessageEvent;
@@ -41,6 +42,7 @@ public class MessageHandler {
     private void registerCatalog() {
         this.packets.put(101, new GetCatalogIndexMessageEvent());
         this.packets.put(102, new GetCatalogPageMessageEvent());
+        this.packets.put(3030, new GetIsOfferGiftableMessageEvent());
     }
 
     private void registerRegister() {
