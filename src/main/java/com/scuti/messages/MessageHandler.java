@@ -4,6 +4,7 @@ import com.scuti.messages.incoming.MessageEvent;
 import com.scuti.messages.incoming.catalog.GetCatalogIndexMessageEvent;
 import com.scuti.messages.incoming.catalog.GetCatalogPageMessageEvent;
 import com.scuti.messages.incoming.catalog.GetIsOfferGiftableMessageEvent;
+import com.scuti.messages.incoming.catalog.PurchaseFromCatalogMessageEvent;
 import com.scuti.messages.incoming.friendlist.*;
 import com.scuti.messages.incoming.handshake.InfoRetrieveMessageEvent;
 import com.scuti.messages.incoming.handshake.InitCryptoMessageEvent;
@@ -43,6 +44,7 @@ public class MessageHandler {
         this.packets.put(101, new GetCatalogIndexMessageEvent());
         this.packets.put(102, new GetCatalogPageMessageEvent());
         this.packets.put(3030, new GetIsOfferGiftableMessageEvent());
+        this.packets.put(100, new PurchaseFromCatalogMessageEvent());
     }
 
     private void registerRegister() {
@@ -96,12 +98,7 @@ public class MessageHandler {
         int header = clientMessage.getHeader();
         if (this.packets.containsKey(header)) {
             Logger.logIncoming(header);
-            try {
-                this.packets.get(header).handle(connection, clientMessage);
-            } catch (Exception e) {
-                Logger.logError("Cannot handle the packet ".concat(String.valueOf(header)));
-                Logger.logError(e.getMessage());
-            }
+            this.packets.get(header).handle(connection, clientMessage);
         } else {
             Logger.logWarning("The packet " + header + " cannot be handled!");
         }
