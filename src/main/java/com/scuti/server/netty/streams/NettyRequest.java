@@ -11,7 +11,6 @@ public class NettyRequest implements IRequest {
     private final byte[] body;
     private final int messageId;
     private int pointer;
-    private final int remainingContent;
 
     public NettyRequest(int messageId, byte[] body) {
         if (body == null) {
@@ -21,48 +20,40 @@ public class NettyRequest implements IRequest {
         this.messageId = messageId;
         this.body = body;
         this.pointer = 0;
-        this.remainingContent = this.body.length - this.pointer;
     }
 
     public int getHeader() {
         return this.messageId;
     }
 
-    public void reset() {
-        this.pointer = 0;
-    }
-
-    public void advancePointer(int i) {
-        this.pointer = this.pointer + i;
-    }
-
-    public String getContentString() {
-        return new String(this.body, StandardCharsets.UTF_8);
+    public int getRemainingLength() {
+        return this.body.length - this.pointer;
     }
 
     @Override
-    public byte[] readBytes(int numBytes) {
-        if (numBytes > this.remainingContent) {
-            numBytes = this.remainingContent;
+    public byte[] readBytes(int bytes) {
+        if (bytes > this.getRemainingLength()) {
+            bytes = this.getRemainingLength();
         }
-        byte[] bzData = new byte[numBytes];
-        for (int i = 0 ; i < numBytes ; i++) {
+        byte[] bzData = new byte[bytes];
+        for (int i = 0 ; i < bytes ; i++) {
             bzData[i] = this.body[this.pointer++];
         }
         return bzData;
     }
 
     @Override
-    public byte[] readBytesFreezeCursor(int numBytes) {
-        if (numBytes > this.remainingContent) {
-            numBytes = this.remainingContent;
+    public byte[] plainReadBytes(int bytes) {
+        if (bytes > this.getRemainingLength()) {
+            bytes = this.getRemainingLength();
         }
 
-        byte[] bzData = new byte[numBytes];
-        for (int x = 0, y = this.pointer; x < numBytes; x++, y++)
+        byte[] bzData = new byte[bytes];
+        int index = 0;
+        for (int i = this.pointer ; index < bytes; i++)
         {
-            // ??
-            bzData[x] = this.body[y];
+            bzData[index] = this.body[i];
+            index++;
         }
 
         return bzData;
@@ -70,13 +61,13 @@ public class NettyRequest implements IRequest {
 
     @Override
     public byte[] readFixedValue() {
-        int length = Base64Encoding.decodeInt32(this.readBytes(2));
-        return this.readBytes(length);
+        int bytes = Base64Encoding.decodeInt32(this.readBytes(2));
+        return this.readBytes(bytes);
     }
 
     @Override
     public boolean popBase64Boolean() {
-        return (this.remainingContent > 0 && this.body[this.pointer++] == 65);
+        return (this.getRemainingLength() > 0 && this.body[this.pointer++] == 0x41);
     }
 
     @Override
@@ -97,21 +88,21 @@ public class NettyRequest implements IRequest {
 
     @Override
     public boolean popWiredBoolean() {
-        return (this.remainingContent > 0 && this.body[this.pointer++] == WireEncoding.POSITIVE);
+        return (this.getRemainingLength() > 0 && this.body[this.pointer++] == WireEncoding.POSITIVE);
     }
 
     @Override
     public int popWiredInt32() {
-        if (this.remainingContent == 0) {
+        if (this.getRemainingLength() < 1) {
             return 0;
         }
 
-        byte[] bzData = this.readBytesFreezeCursor(WireEncoding.MAX_INTEGER_BYTE_AMOUNT);
+        byte[] bzData = this.plainReadBytes(WireEncoding.MAX_INTEGER_BYTE_AMOUNT);
         int totalBytes = 0;
         int i = WireEncoding.DecodeInt32(bzData, totalBytes);
         totalBytes = WireEncoding.currentTotalBytes;
 
-        this.pointer = this.pointer + totalBytes;
+        this.pointer += totalBytes;
         return i;
     }
 }
