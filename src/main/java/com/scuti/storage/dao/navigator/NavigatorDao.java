@@ -1,6 +1,6 @@
-package com.scuti.storage.dao;
+package com.scuti.storage.dao.navigator;
 
-import com.scuti.game.navigator.components.PublicRoomEntry;
+import com.scuti.game.components.navigator.entries.PublicRoomEntry;
 import com.scuti.storage.Database;
 import com.scuti.util.logger.Logger;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NavigatorDao {
-    public static List<PublicRoomEntry> getPublicRooms() {
+    public List<PublicRoomEntry> getPublicRooms() {
         Connection connection;
         PreparedStatement preparedStatement;
         ResultSet resultSet;
@@ -26,15 +26,13 @@ public class NavigatorDao {
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                publicRooms.add(new PublicRoomEntry(
-                        resultSet.getInt("id"),
+                publicRooms.add(new PublicRoomEntry(resultSet.getInt("room_id"),
                         resultSet.getString("caption"),
-                        "",
+                        resultSet.getString("caption"),
+                        50,
+                        resultSet.getInt("id"),
                         resultSet.getString("image"),
-                        0,
-                        resultSet.getInt("ordernum"),
-                        resultSet.getInt("roomid")
-                ));
+                        true));
             }
 
             resultSet.close();

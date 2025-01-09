@@ -2,6 +2,7 @@ package com.scuti;
 
 import com.scuti.game.catalog.CatalogManager;
 import com.scuti.game.commands.CommandManager;
+import com.scuti.game.components.navigator.NavigatorComponent;
 import com.scuti.game.items.ItemManager;
 import com.scuti.game.rooms.RoomManager;
 import com.scuti.game.rooms.RoomModelManager;
@@ -38,6 +39,7 @@ public class Main {
         CommandManager.getInstance();
         CatalogManager.getInstance();
         ItemManager.getInstance();
+        NavigatorComponent.getInstance();
     }
 
     /**
