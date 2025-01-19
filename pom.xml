@@ -8,12 +8,24 @@
     <groupId>com.scuti</groupId>
     <artifactId>scuti-server</artifactId>
     <version>1.0</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <!-- General info -->
     <name>scuti-server</name>
     <description>An open source R63A Habbo server</description>
     <url>https://github.com/qgarot/scuti-server</url>
+    <modules>
+        <module>scuti-network-api</module>
+        <module>scuti-network</module>
+        <module>scuti-network-api</module>
+        <module>scuti-network-api</module>
+        <module>scuti-utils</module>
+        <module>scuti-database-api</module>
+        <module>scuti-database</module>
+        <module>scuti-game-model</module>
+        <module>scuti-game-model-api</module>
+        <module>scuti-game-controller-api</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
