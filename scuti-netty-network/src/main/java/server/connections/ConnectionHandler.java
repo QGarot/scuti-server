@@ -54,7 +54,6 @@ public class ConnectionHandler extends SimpleChannelInboundHandler<IRequest> {
         } else {
             ChannelFuture f = connection.close();
             f.addListener((ChannelFutureListener) channelFuture -> {
-                this.getConnections().remove(connection.getChannel().id());
                 Logger.logInfo("Too much connection with the ip: ".concat(connection.getIpAddress()));
             });
         }
