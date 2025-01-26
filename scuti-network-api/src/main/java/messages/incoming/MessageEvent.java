@@ -1,5 +1,6 @@
 package messages.incoming;
 
+import game.IGameController;
 import server.connections.IConnection;
 import server.streams.IRequest;
 
@@ -8,14 +9,14 @@ import server.streams.IRequest;
  */
 public abstract class MessageEvent {
 
-    private Object gameManager;
+    private IGameController gameController;
 
     /**
      * Returns the game manager instance.
      * @return game
      */
-    public Object getGameManager() {
-        return this.gameManager;
+    public IGameController getGameController() {
+        return this.gameController;
     }
 
     /**

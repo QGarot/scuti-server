@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>scuti-network-api</artifactId>
+    <artifactId>scuti-game-controller</artifactId>
 
     <properties>
         <maven.compiler.source>23</maven.compiler.source>

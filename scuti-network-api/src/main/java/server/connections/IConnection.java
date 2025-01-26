@@ -1,6 +1,9 @@
 package server.connections;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import messages.outgoing.MessageComposer;
+import services.users.IUser;
 
 /**
  * An interface representing the client.
@@ -9,13 +12,20 @@ import io.netty.channel.Channel;
 public interface IConnection {
     /**
      * Disconnects the client.
+     * @return channel future
      */
-    void disconnect();
+    ChannelFuture disconnect();
 
     /**
-     * Sends a message composer (packet) to the client.
+     * Closes the client channel.
+     * @return channel future
      */
-    void send();
+    ChannelFuture close();
+    /**
+     * Sends a message composer (packet) to the client.
+     * @param messageComposer: message to compose
+     */
+    void send(MessageComposer messageComposer);
 
     /**
      * Returns the client's ip address.
@@ -30,9 +40,8 @@ public interface IConnection {
     Channel getChannel();
 
     /**
-     * TODO: returns user object...
      * Returns the client's user instance.
      * @return user instance
      */
-    int getUser();
+    IUser getUser();
 }

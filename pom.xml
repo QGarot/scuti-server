@@ -16,7 +16,7 @@
     <url>https://github.com/qgarot/scuti-server</url>
     <modules>
         <module>scuti-network-api</module>
-        <module>scuti-network</module>
+        <module>scuti-netty-network</module>
         <module>scuti-network-api</module>
         <module>scuti-network-api</module>
         <module>scuti-utils</module>
@@ -25,6 +25,8 @@
         <module>scuti-game-model</module>
         <module>scuti-game-model-api</module>
         <module>scuti-game-controller-api</module>
+        <module>scuti-game-controller</module>
+        <module>scuti-netty-network</module>
     </modules>
 
     <properties>
@@ -37,7 +39,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.107.Final</version>
+            <version>5.0.0.Alpha2</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -47,7 +49,7 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>8.3.0</version>
+            <version>9.0.0</version>
         </dependency>
 
     </dependencies>
