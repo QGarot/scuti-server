@@ -15,9 +15,9 @@ public class Connection implements IConnection {
 
     @Override
     public ChannelFuture disconnect() {
-//        if (this.getUser() != null) {
-//
-//        }
+        if (this.getUser() != null) {
+            this.getUser().dispose();
+        }
 
         return this.getChannel().disconnect();
     }
