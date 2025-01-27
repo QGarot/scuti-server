@@ -33,7 +33,7 @@ public class UserDetailsDao extends Dao<IUserDetails> {
         PreparedStatement preparedStatement;
         ResultSet resultSet;
 
-        String sql = "SELECT id FROM users WHERE auth_ticket = ?;";
+        String sql = "SELECT * FROM users WHERE auth_ticket = ?;";
 
         try {
             connection = this.getDatabase().getConnection();

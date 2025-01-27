@@ -7,22 +7,30 @@ import services.IUserService;
 public class GameController implements IGameController {
 
     // Game services
-    private IRoomService roomService;
-    private INavigatorService navigatorService;
-    private IUserService userService;
+    private final IRoomService roomService;
+    private final INavigatorService navigatorService;
+    private final IUserService userService;
+
+    public GameController(IUserService userService) {
+        this.userService = userService;
+        this.roomService = null;
+        this.navigatorService = null;
+    }
+
+
 
     @Override
     public IRoomService getRoomService() {
-        return null;
+        return this.roomService;
     }
 
     @Override
     public INavigatorService getNavigatorService() {
-        return null;
+        return this.navigatorService;
     }
 
     @Override
     public IUserService getUserService() {
-        return null;
+        return this.userService;
     }
 }

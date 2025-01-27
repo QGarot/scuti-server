@@ -8,7 +8,7 @@ import services.IService;
  * For example, the service provider will build all DAO objects (thanks to the database instance) and will inject them
  * in the service constructor.
  */
-public abstract class ServiceProvider {
+public abstract class ServiceProvider<T extends IService> {
     protected IDatabase db;
 
     public ServiceProvider(IDatabase db) {
@@ -19,5 +19,5 @@ public abstract class ServiceProvider {
      * Returns the corresponding service.
      * @return the service if it is ready to be used, null else
      */
-    public abstract IService getService();
+    public abstract T getService();
 }
