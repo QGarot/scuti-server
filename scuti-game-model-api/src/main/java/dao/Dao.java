@@ -15,7 +15,7 @@ public abstract class Dao<T extends IEntity> implements IDao<T> {
      * Returns the database.
      * @return database
      */
-    public IDatabase getDatabase() {
+    protected IDatabase getDatabase() {
         return this.db;
     }
 }

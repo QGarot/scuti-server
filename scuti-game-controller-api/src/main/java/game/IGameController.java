@@ -1,8 +1,8 @@
 package game;
 
-import services.navigator.INavigatorService;
-import services.rooms.IRoomService;
-import services.users.IUserService;
+import services.INavigatorService;
+import services.IRoomService;
+import services.IUserService;
 
 public interface IGameController {
     /**

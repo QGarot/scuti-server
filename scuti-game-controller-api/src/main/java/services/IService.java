@@ -2,7 +2,7 @@ package services;
 
 public interface IService {
     /**
-     * Starts the service.
+     * Starts the service. Performs all internal process.
      */
     void start();
 

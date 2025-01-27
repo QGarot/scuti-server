@@ -16,9 +16,7 @@
     <url>https://github.com/qgarot/scuti-server</url>
     <modules>
         <module>scuti-network-api</module>
-        <module>scuti-netty-network</module>
-        <module>scuti-network-api</module>
-        <module>scuti-network-api</module>
+        <module>scuti-network</module>
         <module>scuti-utils</module>
         <module>scuti-database-api</module>
         <module>scuti-database</module>
@@ -26,7 +24,7 @@
         <module>scuti-game-model-api</module>
         <module>scuti-game-controller-api</module>
         <module>scuti-game-controller</module>
-        <module>scuti-netty-network</module>
+        <module>scuti-boot</module>
     </modules>
 
     <properties>

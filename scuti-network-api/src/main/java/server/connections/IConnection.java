@@ -3,7 +3,7 @@ package server.connections;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import messages.outgoing.MessageComposer;
-import services.users.IUser;
+import game.users.IUser;
 
 /**
  * An interface representing the client.
@@ -44,4 +44,10 @@ public interface IConnection {
      * @return user instance
      */
     IUser getUser();
+
+    /**
+     * Sets the user.
+     * @param user: new user
+     */
+    void setUser(IUser user);
 }

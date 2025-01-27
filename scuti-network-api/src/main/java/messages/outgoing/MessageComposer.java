@@ -7,10 +7,13 @@ import server.streams.IResponse;
  */
 public abstract class MessageComposer {
 
-    private IResponse response;
+    // The response attribute needs to be visible by all subclasses for specific instantiation:
+    // Each MessageComposer is associated with a unique instantiation with a specific header.
+    // e.g. MotdNotificationMessageComposer -> a response is created with the header 810.
+    protected IResponse response;
 
     /**
-     * Returns response
+     * Returns response.
      * @return response instance
      */
     public IResponse getResponse() {

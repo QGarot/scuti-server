@@ -9,13 +9,17 @@ import server.streams.IRequest;
  */
 public abstract class MessageEvent {
 
-    private IGameController gameController;
+    private final IGameController gameController;
+
+    public MessageEvent(IGameController gameController) {
+        this.gameController = gameController;
+    }
 
     /**
-     * Returns the game manager instance.
+     * Returns the game controller instance.
      * @return game
      */
-    public IGameController getGameController() {
+    protected IGameController getGameController() {
         return this.gameController;
     }
 
