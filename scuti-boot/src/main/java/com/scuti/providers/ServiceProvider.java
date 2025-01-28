@@ -9,6 +9,7 @@ import services.IService;
  * in the service constructor.
  */
 public abstract class ServiceProvider<T extends IService> {
+
     protected IDatabase db;
 
     public ServiceProvider(IDatabase db) {
@@ -17,7 +18,7 @@ public abstract class ServiceProvider<T extends IService> {
 
     /**
      * Returns the corresponding service.
-     * @return the service if it is ready to be used, null else
+     * @return the service ready to be used
      */
     public abstract T getService();
 }
