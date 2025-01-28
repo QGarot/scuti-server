@@ -1,4 +1,4 @@
-package messages;
+package server.handlers;
 
 import server.connections.IConnection;
 import server.streams.IRequest;

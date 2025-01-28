@@ -2,7 +2,6 @@ package server.handlers;
 
 import io.netty.channel.*;
 import logger.Logger;
-import messages.IGameHandler;
 import server.connections.Connection;
 import server.connections.IConnection;
 import server.streams.IRequest;

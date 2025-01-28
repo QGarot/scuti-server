@@ -2,7 +2,6 @@ package server.handlers;
 
 import game.IGameController;
 import logger.Logger;
-import messages.IGameHandler;
 import messages.incoming.IncomingHeaders;
 import messages.incoming.MessageEvent;
 import messages.incoming.handshake.InfoRetrieveMessageEvent;

@@ -3,7 +3,7 @@ package server;
 import game.IGameController;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
-import messages.IGameHandler;
+import server.handlers.IGameHandler;
 import server.codec.Decoder;
 import server.codec.Encoder;
 import server.handlers.ConnectionHandler;
