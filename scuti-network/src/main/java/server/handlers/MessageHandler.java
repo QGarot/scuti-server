@@ -7,6 +7,7 @@ import messages.incoming.MessageEvent;
 import messages.incoming.handshake.InfoRetrieveMessageEvent;
 import messages.incoming.handshake.InitCryptoMessageEvent;
 import messages.incoming.handshake.SSOTicketMessageEvent;
+import messages.incoming.inventory.GetCreditsInfoMessageEvent;
 import server.connections.IConnection;
 import server.streams.IRequest;
 
@@ -57,6 +58,7 @@ public class MessageHandler implements IGameHandler {
         // Navigator
 
         // Inventory
+        this.getEvents().put(IncomingHeaders.GET_CREDITS_INFO, new GetCreditsInfoMessageEvent(this.getGame()));
 
         // Tracking
 
